@@ -1,19 +1,28 @@
-package miage.gestioncabinet;
+package miage.gestioncabinet.db;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.resource.cci.Interaction;
+
 import miage.gestioncabinet.api.Consultation;
-import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
-public class ConsultationImpl implements Consultation {
+@Entity
+@Table(name = "t_consultation")
+public class ConsultationDB implements Consultation {
 
-    private Patient           patient = new PatientImpl();
+    private static final long serialVersionUID = -640614506192476239L;
+    @Id
+    private long              id;
+    private Patient           patient          = new PatientDB();
     private Medecin           medecin;
     private Calendar          dateDebut;
     private Calendar          dateFin;
@@ -89,7 +98,7 @@ public class ConsultationImpl implements Consultation {
     @Override
     public Boolean ajouterTraitement(Produit produit) {
 
-        Traitement traitement = new miage.gestioncabinet.TraitementImpl();
+        Traitement traitement = new miage.gestioncabinet.db.TraitementDB();
         traitement.setProduit(produit);
 
         if (!prescriptions.contains(traitement)) {
@@ -106,16 +115,6 @@ public class ConsultationImpl implements Consultation {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public List<Interaction> getInteractions() {
-        return interactions;
-    }
-
-    @Override
-    public void setInteractions(List<Interaction> interactions) {
-        this.interactions = interactions;
     }
 
     @Override
@@ -149,7 +148,7 @@ public class ConsultationImpl implements Consultation {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ConsultationImpl other = (ConsultationImpl) obj;
+        ConsultationDB other = (ConsultationDB) obj;
         if (compteRendu == null) {
             if (other.compteRendu != null)
                 return false;
@@ -186,6 +185,18 @@ public class ConsultationImpl implements Consultation {
         } else if (!prescriptions.equals(other.prescriptions))
             return false;
         return true;
+    }
+
+    @Override
+    public List<miage.gestioncabinet.api.Interaction> getInteractions() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setInteractions(List<miage.gestioncabinet.api.Interaction> interactions) {
+        // TODO Auto-generated method stub
+
     }
 
 }

@@ -1,9 +1,13 @@
-package miage.gestioncabinet;
+package miage.gestioncabinet.db;
 
-public class ProduitImpl implements miage.gestioncabinet.api.Produit {
+import javax.persistence.Embeddable;
 
-    private String cis;
-    private String nom;
+@Embeddable
+public class ProduitDB implements miage.gestioncabinet.api.Produit {
+
+    private static final long serialVersionUID = -1562087114201628808L;
+    private String            cis;
+    private String            nom;
 
     @Override
     public String getCis() {
@@ -43,7 +47,7 @@ public class ProduitImpl implements miage.gestioncabinet.api.Produit {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProduitImpl other = (ProduitImpl) obj;
+        ProduitDB other = (ProduitDB) obj;
         if (cis == null) {
             if (other.cis != null)
                 return false;

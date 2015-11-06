@@ -1,7 +1,7 @@
 /**
  * 
  */
-package miage.gestioncabinet;
+package miage.gestioncabinet.db;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,7 +49,7 @@ import miage.gestioncabinet.api.Utilisateur;
  */
 @Stateful
 @Remote(PlanningRemoteService.class)
-public class PlanningServiceImpl implements PlanningRemoteService {
+public class PlanningServiceDB implements PlanningRemoteService {
 
     private Utilisateur        utilisateur       = null;
     private Calendar           dateDebut;
@@ -65,15 +65,15 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     @PostConstruct
     public void init() throws ParseException {
         // Medecins
-        Medecin m1 = new MedecinImpl();
+        Medecin m1 = new MedecinDB();
         m1.setPrenom("Robert");
         m1.setNom("FORD");
 
-        Medecin m2 = new MedecinImpl();
+        Medecin m2 = new MedecinDB();
         m2.setPrenom("Paul");
         m2.setNom("MAES");
 
-        Medecin m3 = new MedecinImpl();
+        Medecin m3 = new MedecinDB();
         m3.setPrenom("Pierre");
         m3.setNom("MARF");
 
@@ -82,18 +82,18 @@ public class PlanningServiceImpl implements PlanningRemoteService {
         stubMedecins.add(m3);
 
         // Patients
-        Patient p1 = new PatientImpl();
+        Patient p1 = new PatientDB();
         p1.setPrenom("Julien");
         p1.setNom("RISH");
         Calendar dateNaissance1 = Calendar.getInstance();
         dateNaissance1.setTime(new SimpleDateFormat("dd/MM/yyyy").parse("12/03/1964"));
         p1.setDateNaissance(dateNaissance1);
 
-        Patient p2 = new PatientImpl();
+        Patient p2 = new PatientDB();
         p2.setPrenom("Johny");
         p2.setNom("WALKER");
 
-        Patient p3 = new PatientImpl();
+        Patient p3 = new PatientDB();
         p3.setPrenom("Jack");
         p3.setNom("TADAM");
 
@@ -103,26 +103,26 @@ public class PlanningServiceImpl implements PlanningRemoteService {
 
         // Consultations
         // m1
-        Consultation c1 = new ConsultationImpl();
+        Consultation c1 = new ConsultationDB();
         c1.setPatient(p1);
         c1.setMedecin(m1);
         c1.setDebut(new GregorianCalendar(2015, 10, 30, 16, 00));
         c1.setFin(new GregorianCalendar(2015, 10, 30, 16, 15));
 
-        Consultation c2 = new ConsultationImpl();
+        Consultation c2 = new ConsultationDB();
         c2.setPatient(p2);
         c2.setMedecin(m1);
         c2.setDebut(new GregorianCalendar(2015, 10, 30, 16, 15));
         c2.setFin(new GregorianCalendar(2015, 10, 30, 16, 30));
 
-        Consultation c3 = new ConsultationImpl();
+        Consultation c3 = new ConsultationDB();
         c3.setPatient(p3);
         c3.setMedecin(m1);
         c3.setDebut(new GregorianCalendar(2015, 10, 30, 16, 30));
         c3.setFin(new GregorianCalendar(2015, 10, 30, 16, 45));
 
         // m2
-        Consultation c4 = new ConsultationImpl();
+        Consultation c4 = new ConsultationDB();
         c4.setPatient(p1);
         c4.setMedecin(m2);
         c4.setDebut(new GregorianCalendar(2015, 10, 31, 12, 45));
@@ -152,7 +152,7 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     @Override
     public Utilisateur getUtilisateur() {
         if (this.utilisateur == null) {
-            UtilisateurImpl utilisateur = new UtilisateurImpl();
+            UtilisateurDB utilisateur = new UtilisateurDB();
             utilisateur.setPrenom("John");
             utilisateur.setNom("Smith");
             utilisateur.setCompte(super.toString().substring(super.toString().indexOf('@') + 1));
@@ -168,10 +168,10 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     @Override
     public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance)
             throws GestionCabinetException {
-        /*Patient patientCherche = new PatientImpl();
+        Patient patientCherche = new PatientDB();
         patientCherche.setNom(nom);
         patientCherche.setPrenom(prenom);
-        patientCherche.setDateNaissance(dateNaissance);*/
+        patientCherche.setDateNaissance(dateNaissance);
 
         List<Patient> patientListFound = new ArrayList<Patient>();
 
@@ -269,7 +269,7 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     // Création d'un rendez-vous
     @Override
     public Consultation creerRdv(Calendar date) {
-        Consultation rdv = new ConsultationImpl();
+        Consultation rdv = new ConsultationDB();
 
         rdv.setDebut(date);
         date.add(Calendar.MINUTE, 20);
