@@ -2,6 +2,9 @@ package miage.gestioncabinet;
 
 import java.util.List;
 
+import javax.ejb.Remote;
+import javax.ejb.Stateful;
+
 import fr.vidal.webservices.productservice.ProductService;
 import fr.vidal.webservices.productservice.ProductService_Service;
 import fr.vidal.webservices.productservice.ProductType;
@@ -10,6 +13,8 @@ import miage.gestioncabinet.api.ConsultationRemoteService;
 import miage.gestioncabinet.api.GestionCabinetException;
 import miage.gestioncabinet.api.Produit;
 
+@Stateful
+@Remote(ConsultationRemoteService.class)
 public class ConsultationServiceImpl implements ConsultationRemoteService {
 
     private Consultation consultation;

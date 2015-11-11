@@ -25,26 +25,17 @@ import miage.gestioncabinet.api.Utilisateur;
 /**
  * @author youvann
  * 
- *         Stateful avec état utilisé pour les EJB L'EJB est exposé via une
- *         interface locale : PlanningRemoteService
- *         Remote(PlanningRemoteService.class)
+ *         Stateful avec état utilisé pour les EJB L'EJB est exposé via une interface locale : PlanningRemoteService Remote(PlanningRemoteService.class)
  * 
- *         Communiquer entre client de test et application déployée via
- *         l'interface Remote de l'EJB accessbile par n'importe quel programme
- *         client
+ *         Communiquer entre client de test et application déployée via l'interface Remote de l'EJB accessbile par n'importe quel programme client
  * 
- *         Pour déployer l'application faire : - clic droit sur WildFly > add >
- *         gestioncabinet - clic droit sur WildFly > Publish
+ *         Pour déployer l'application faire : - clic droit sur WildFly > add > gestioncabinet - clic droit sur WildFly > Publish
  * 
- *         Vérifier dans WildFly>standalone>deployments que l'EJB a bien été
- *         publié
+ *         Vérifier dans WildFly>standalone>deployments que l'EJB a bien été publié
  * 
- *         L'adresse de notre EJB est
- *         java:global/gestioncabinet/gestioncabinet-coreM/PlanningService!miage
- *         .gestioncabinet.api.PlanningRemoteService
+ *         L'adresse de notre EJB est java:global/gestioncabinet/gestioncabinet-coreM/PlanningService!miage .gestioncabinet.api.PlanningRemoteService
  * 
- *         Aller dans GestionCabinet-test pour lui communiquer l'adresse de
- *         l'EJB
+ *         Aller dans GestionCabinet-test pour lui communiquer l'adresse de l'EJB
  * 
  */
 @Stateful
@@ -101,51 +92,8 @@ public class PlanningServiceImpl implements PlanningRemoteService {
         stubPatients.add(p2);
         stubPatients.add(p3);
 
-        // Consultations
-        // m1
-        Consultation c1 = new ConsultationImpl();
-        c1.setPatient(p1);
-        c1.setMedecin(m1);
-        c1.setDebut(new GregorianCalendar(2015, 10, 30, 16, 00));
-        c1.setFin(new GregorianCalendar(2015, 10, 30, 16, 15));
-
-        Consultation c2 = new ConsultationImpl();
-        c2.setPatient(p2);
-        c2.setMedecin(m1);
-        c2.setDebut(new GregorianCalendar(2015, 10, 30, 16, 15));
-        c2.setFin(new GregorianCalendar(2015, 10, 30, 16, 30));
-
-        Consultation c3 = new ConsultationImpl();
-        c3.setPatient(p3);
-        c3.setMedecin(m1);
-        c3.setDebut(new GregorianCalendar(2015, 10, 30, 16, 30));
-        c3.setFin(new GregorianCalendar(2015, 10, 30, 16, 45));
-
-        // m2
-        Consultation c4 = new ConsultationImpl();
-        c4.setPatient(p1);
-        c4.setMedecin(m2);
-        c4.setDebut(new GregorianCalendar(2015, 10, 31, 12, 45));
-        c4.setFin(new GregorianCalendar(2015, 10, 31, 13, 00));
-
-        // m1
-        stubConsultations.add(c2);
-        stubConsultations.add(c1);
-        stubConsultations.add(c3);
-        // m2
-        stubConsultations.add(c4);
-
-        /*
-         * Calendar cal1 = Calendar.getInstance(); cal1.set(Calendar.YEAR,
-         * 2014); cal1.set(Calendar.MONTH, 10); cal1.set(Calendar.DATE, 30);
-         * cal1.set(Calendar.HOUR, 10); cal1.set(Calendar.MINUTE, 00);
-         * cal1.set(Calendar.SECOND, 00); dateDebut = cal1;
-         * 
-         * Calendar cal2 = Calendar.getInstance(); cal2.set(Calendar.YEAR,
-         * 2014); cal2.set(Calendar.MONTH, 10); cal2.set(Calendar.DATE, 30);
-         * cal2.set(Calendar.HOUR, 18); cal2.set(Calendar.MINUTE, 00);
-         * cal2.set(Calendar.SECOND, 00); dateFin = cal2;
-         */
+        dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
+        dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
     }
 
@@ -166,18 +114,11 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     }
 
     @Override
-    public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance)
-            throws GestionCabinetException {
-        /*Patient patientCherche = new PatientImpl();
-        patientCherche.setNom(nom);
-        patientCherche.setPrenom(prenom);
-        patientCherche.setDateNaissance(dateNaissance);*/
-
+    public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance) throws GestionCabinetException {
         List<Patient> patientListFound = new ArrayList<Patient>();
 
         for (Patient patient : stubPatients) {
-            if (patient.getNom().equals(nom) && patient.getPrenom().equals(prenom)
-                    && patient.getDateNaissance().equals(dateNaissance)) {
+            if (patient.getNom().equals(nom) && patient.getPrenom().equals(prenom) && patient.getDateNaissance().equals(dateNaissance)) {
                 patientListFound.add(patient);
             }
         }
@@ -187,19 +128,6 @@ public class PlanningServiceImpl implements PlanningRemoteService {
 
     @Override
     public Calendar getDateDebut() {
-        List<Consultation> rdvs = listerRdv();
-        if (rdvs.isEmpty()) {
-            Calendar fakeDate = Calendar.getInstance();
-            fakeDate.set(Calendar.YEAR, 2000);
-            fakeDate.set(Calendar.MONTH, 12);
-            fakeDate.set(Calendar.DATE, 30);
-            fakeDate.set(Calendar.HOUR, 10);
-            fakeDate.set(Calendar.MINUTE, 00);
-            fakeDate.set(Calendar.SECOND, 00);
-            dateDebut = fakeDate;
-        } else {
-            dateDebut = listerRdv().get(0).getDebut();
-        }
         return dateDebut;
     }
 
@@ -210,19 +138,6 @@ public class PlanningServiceImpl implements PlanningRemoteService {
 
     @Override
     public Calendar getDateFin() {
-        List<Consultation> rdvs = listerRdv();
-        if (rdvs.isEmpty()) {
-            Calendar fakeDate = Calendar.getInstance();
-            fakeDate.set(Calendar.YEAR, 2000);
-            fakeDate.set(Calendar.MONTH, 12);
-            fakeDate.set(Calendar.DATE, 30);
-            fakeDate.set(Calendar.HOUR, 11);
-            fakeDate.set(Calendar.MINUTE, 00);
-            fakeDate.set(Calendar.SECOND, 00);
-            dateFin = fakeDate;
-        } else {
-            dateFin = listerRdv().get(rdvs.size() - 1).getFin();
-        }
         return dateFin;
     }
 
@@ -246,8 +161,16 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     public List<Consultation> listerRdv() {
         List<Consultation> consultationTmp = new ArrayList<Consultation>();
         for (Consultation consultation : stubConsultations) {
+
+            // Affiche uniquement le rendez-vous du médecin courant
             if (consultation.getMedecin().equals(medecinCourant)) {
-                consultationTmp.add(consultation);
+
+                Boolean conditionDateFin = consultation.getFin().before(getDateFin()) || consultation.getFin().equals(getDateFin());
+                // Affiche uniquement les rendez-vous du jour
+                if (consultation.getDebut().after(getDateDebut()) && conditionDateFin || consultation.getDebut().equals(getDateDebut()) && conditionDateFin) {
+                    consultationTmp.add(consultation);
+                }
+
             }
         }
 
@@ -269,12 +192,14 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     // Création d'un rendez-vous
     @Override
     public Consultation creerRdv(Calendar date) {
-        Consultation rdv = new ConsultationImpl();
+        Calendar dateFin = (Calendar) getDateDebut().clone();
+        dateFin.add(Calendar.MINUTE, 20);
 
+        Consultation rdv = new ConsultationImpl();
         rdv.setDebut(date);
-        date.add(Calendar.MINUTE, 20);
-        rdv.setFin(date);
+        rdv.setFin(dateFin);
         rdv.setMedecin(medecinCourant);
+
         return rdv;
 
     }
@@ -290,8 +215,6 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     public void supprimerRdv() throws GestionCabinetException {
         if (stubConsultations.contains(rdvCourant)) {
             stubConsultations.remove(rdvCourant);
-        } else {
-            System.out.println("ok");
         }
     }
 
