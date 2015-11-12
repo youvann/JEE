@@ -7,11 +7,14 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 
+import fr.vidal.webservices.interactionservice.ArrayOfInt;
+import fr.vidal.webservices.interactionservice.ArrayOfInteractionCouple;
+import fr.vidal.webservices.interactionservice.ArrayOfProduct;
+import fr.vidal.webservices.interactionservice.InteractionCouple;
+import fr.vidal.webservices.interactionservice.InteractionResult;
 import fr.vidal.webservices.interactionservice.InteractionService;
 import fr.vidal.webservices.interactionservice.InteractionService_Service;
 import fr.vidal.webservices.interactionservice.InteractionSeverityType;
-import fr.vidal.webservices.interactionservice.ArrayOfInt;
-import fr.vidal.webservices.interactionservice.InteractionResult;
 import fr.vidal.webservices.productservice.Product;
 import fr.vidal.webservices.productservice.ProductService;
 import fr.vidal.webservices.productservice.ProductService_Service;
@@ -46,7 +49,7 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
 
     @Override
     public Consultation getConsultation() {
-        return consultation;
+        return this.consultation;
     }
 
     @Override
@@ -70,26 +73,56 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
     @Override
     public void analyserPrescription() throws GestionCabinetException {
         List<Traitement> traitements = consultation.getPrescription();
+
+        // Récupération des produits ID
         ArrayOfInt productIds = new ArrayOfInt();
 
         for (Traitement traitement : traitements) {
             productIds.getInt().add(Integer.parseInt(traitement.getProduit().getCis()));
         }
 
-        InteractionResult interactions = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.CONTRAINDICATIONS);
-        interactions.getInteractionCoupleList();
-        // interactionService.searchInteractionCouplesForProductIds(productIds, severity);
-        // consultation.setInteractions(interactions);
+        // productIds.getInt().add(63368332);
+        // productIds.getInt().add(65124280);
+        // productIds.getInt().add(68300762);
+        // productIds.getInt().add(67010731);
+        // productIds.getInt().add(63564053);
+
+        // Récupération des interactions trouvées
+        List<Interaction> interactionsFound = new ArrayList<Interaction>();
+        ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.CONTRAINDICATIONS).getInteractionCoupleList();
+        for (InteractionCouple interactionCouple : arrayInteractionsCouple.getInteractionCouple()) {
+            Interaction interaction = new InteractionImpl();
+            // Précautions
+            interaction.setPrecautions(interactionCouple.getPrecautionComment());
+            // Produit A
+            Produit produitA = new ProduitImpl();
+            produitA.setCis(interactionCouple.getProductA().getCis());
+            produitA.setNom(interactionCouple.getProductA().getName());
+            interaction.setProduitA(produitA);
+            // Produit B
+            Produit produitB = new ProduitImpl();
+            produitB.setCis(interactionCouple.getProductB().getCis());
+            produitB.setNom(interactionCouple.getProductB().getName());
+            interaction.setProduitA(produitB);
+            // Risques
+            interaction.setRisques(interactionCouple.getRiskComment());
+            // Sévérité
+            interaction.setSeverite(interactionCouple.getSeverity().value());
+
+            interactionsFound.add(interaction);
+        }
+
+        this.consultation.setInteractions(interactionsFound);
     }
 
     @Override
     public Consultation enregistrer() throws GestionCabinetException {
-        return consultation;
+        return this.consultation;
     }
 
     @Override
     public void supprimer() throws GestionCabinetException {
-        consultation = null;
+        this.consultation = null;
     }
 
 }

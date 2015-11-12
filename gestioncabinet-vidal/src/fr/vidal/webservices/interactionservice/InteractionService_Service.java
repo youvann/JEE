@@ -15,7 +15,7 @@ import javax.xml.ws.Service;
  * 
  */
 @WebServiceClient(name = "InteractionService", 
-                  wsdlLocation = "http://localhost:8078/merlin-service/services/InteractionService?wsdl",
+                  wsdlLocation = "http://fms.novarem.com:8078/merlin-service/services/InteractionService?wsdl",
                   targetNamespace = "urn:Vidal") 
 public class InteractionService_Service extends Service {
 
@@ -26,11 +26,11 @@ public class InteractionService_Service extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("http://localhost:8078/merlin-service/services/InteractionService?wsdl");
+            url = new URL("http://fms.novarem.com:8078/merlin-service/services/InteractionService?wsdl");
         } catch (MalformedURLException e) {
             java.util.logging.Logger.getLogger(InteractionService_Service.class.getName())
                 .log(java.util.logging.Level.INFO, 
-                     "Can not initialize the default wsdl from {0}", "http://localhost:8078/merlin-service/services/InteractionService?wsdl");
+                     "Can not initialize the default wsdl from {0}", "http://fms.novarem.com:8078/merlin-service/services/InteractionService?wsdl");
         }
         WSDL_LOCATION = url;
     }

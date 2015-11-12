@@ -81,7 +81,7 @@ public class ConsultationTestClient {
                     System.out.println(medecin + " recherche un médicament nommé '" + medicaments[i] + "' : " + produits.size() + " produits trouvés");
                     if (!produits.isEmpty()) {
                         Produit produit = produits.get(0);
-                        
+
                         if (consultation.ajouterTraitement(produits.get(0))) {
                             System.out.println(medecin + " prescrit le " + produit);
                         } else {
@@ -103,11 +103,15 @@ public class ConsultationTestClient {
                 }
 
                 System.out.println(medecin + " décide de supprimer les deux premiers produits incriminés de sa prescription");
-                Interaction interaction = consultation.getInteractions().get(0);
-                for (Traitement t : consultation.getPrescription()) {
-                    if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
-                        if (consultation.supprimerTraitement(t)) {
-                            System.out.println(medecin + " a supprimé avec succès le " + t);
+
+                if (!consultation.getInteractions().isEmpty()) {
+                    Interaction interaction = consultation.getInteractions().get(0);
+
+                    for (Traitement t : consultation.getPrescription()) {
+                        if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
+                            if (consultation.supprimerTraitement(t)) {
+                                System.out.println(medecin + " a supprimé avec succès le " + t);
+                            }
                         }
                     }
                 }
