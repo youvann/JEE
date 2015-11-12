@@ -70,6 +70,6 @@ local.properties
 # PDT-specific
 .buildpath
 
-.recommenders
+.recommenders/
 
-RemoteSystemsTempFiles
+RemoteSystemsTempFiles/
