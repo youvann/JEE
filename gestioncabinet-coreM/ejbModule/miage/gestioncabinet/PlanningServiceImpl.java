@@ -192,7 +192,8 @@ public class PlanningServiceImpl implements PlanningRemoteService {
     // Création d'un rendez-vous
     @Override
     public Consultation creerRdv(Calendar date) {
-        Calendar dateFin = (Calendar) getDateDebut().clone();
+        // Un rdv dure 20 minutes
+        Calendar dateFin = (Calendar) date.clone();
         dateFin.add(Calendar.MINUTE, 20);
 
         Consultation rdv = new ConsultationImpl();
@@ -201,7 +202,6 @@ public class PlanningServiceImpl implements PlanningRemoteService {
         rdv.setMedecin(medecinCourant);
 
         return rdv;
-
     }
 
     // Modification d'un rendez-vous

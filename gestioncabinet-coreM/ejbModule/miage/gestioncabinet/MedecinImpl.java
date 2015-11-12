@@ -2,7 +2,8 @@ package miage.gestioncabinet;
 
 public class MedecinImpl extends UtilisateurImpl implements miage.gestioncabinet.api.Medecin {
 
-    private String rpps;
+    private static final long serialVersionUID = -1662860187264840874L;
+    private String            rpps;
 
     @Override
     public String getRPPS() {

@@ -78,9 +78,10 @@ public class ConsultationTestClient {
                 String[] medicaments = { "doliprane", "ibuprofène", "aspegic", "lovenox", "plavix", "doliprane" };
                 for (int i = 0; i < medicaments.length; i++) {
                     List<Produit> produits = app.csService.rechercherMedicament(medicaments[i]);
-                    System.out.println(medecin + " recherche un médicament nommé '" + medicaments + "' : " + produits.size() + " produits trouvés");
+                    System.out.println(medecin + " recherche un médicament nommé '" + medicaments[i] + "' : " + produits.size() + " produits trouvés");
                     if (!produits.isEmpty()) {
                         Produit produit = produits.get(0);
+                        
                         if (consultation.ajouterTraitement(produits.get(0))) {
                             System.out.println(medecin + " prescrit le " + produit);
                         } else {

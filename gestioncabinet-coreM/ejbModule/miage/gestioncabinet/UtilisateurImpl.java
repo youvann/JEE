@@ -2,7 +2,8 @@ package miage.gestioncabinet;
 
 public class UtilisateurImpl extends PersonneImpl implements miage.gestioncabinet.api.Utilisateur {
 
-    private String compte;
+    private static final long serialVersionUID = -5729781749590530157L;
+    private String            compte;
 
     @Override
     public String getCompte() {

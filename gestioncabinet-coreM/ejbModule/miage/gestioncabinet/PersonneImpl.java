@@ -1,9 +1,11 @@
 package miage.gestioncabinet;
 
 public class PersonneImpl implements miage.gestioncabinet.api.Personne {
-    protected Long   id;
-    protected String nom;
-    protected String prenom;
+
+    private static final long serialVersionUID = -8549494117177618535L;
+    protected Long            id;
+    protected String          nom;
+    protected String          prenom;
 
     @Override
     public Long getId() {

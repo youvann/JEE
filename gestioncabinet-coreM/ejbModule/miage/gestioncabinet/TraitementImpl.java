@@ -3,8 +3,10 @@ package miage.gestioncabinet;
 import miage.gestioncabinet.api.Produit;
 
 public class TraitementImpl implements miage.gestioncabinet.api.Traitement {
-    private Produit produit;
-    private String  posologie;
+
+    private static final long serialVersionUID = 8600415727819596688L;
+    private Produit           produit;
+    private String            posologie;
 
     @Override
     public Produit getProduit() {
@@ -56,6 +58,11 @@ public class TraitementImpl implements miage.gestioncabinet.api.Traitement {
         } else if (!produit.equals(other.produit))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "[Traitement] (" + produit + " et la posologie " + posologie + ")";
     }
 
 }

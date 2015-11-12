@@ -3,11 +3,13 @@ package miage.gestioncabinet;
 import miage.gestioncabinet.api.Produit;
 
 public class InteractionImpl implements miage.gestioncabinet.api.Interaction {
-    private Produit produitA;
-    private Produit produitB;
-    private String  severite;
-    private String  risques;
-    private String  precautions;
+
+    private static final long serialVersionUID = -3229348707805891585L;
+    private Produit           produitA;
+    private Produit           produitB;
+    private String            severite;
+    private String            risques;
+    private String            precautions;
 
     @Override
     public Produit getProduitA() {

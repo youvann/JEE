@@ -30,7 +30,7 @@ public class ProductService_Service extends Service {
         } catch (MalformedURLException e) {
             java.util.logging.Logger.getLogger(ProductService_Service.class.getName())
                 .log(java.util.logging.Level.INFO, 
-                     "Can not initialize the default wsdl from {0}", "http://localhost:8078/merlin-service/services/ProductService?wsdl");
+                     "Can not initialize the default wsdl from {0}", "http://fms.novarem.com:8078/merlin-service/services/ProductService?wsdl");
         }
         WSDL_LOCATION = url;
     }

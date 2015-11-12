@@ -4,8 +4,9 @@ import java.util.Calendar;
 
 public class PatientImpl extends miage.gestioncabinet.PersonneImpl implements miage.gestioncabinet.api.Patient {
 
-    private Integer  age;
-    private Calendar dateNaissance;
+    private static final long serialVersionUID = 6902763909172284957L;
+    private Integer           age;
+    private Calendar          dateNaissance;
 
     @Override
     public Integer getAge() {

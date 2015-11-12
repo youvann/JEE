@@ -1,6 +1,7 @@
 package miage.gestioncabinet;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,13 +14,14 @@ import miage.gestioncabinet.api.Traitement;
 
 public class ConsultationImpl implements Consultation {
 
-    private Patient           patient = new PatientImpl();
+    private static final long serialVersionUID = -6807227147670627833L;
+    private Patient           patient          = new PatientImpl();
     private Medecin           medecin;
     private Calendar          dateDebut;
     private Calendar          dateFin;
     private String            compteRendu;
-    private List<Traitement>  prescriptions;
-    private List<Interaction> interactions;
+    private List<Traitement>  prescriptions    = new ArrayList<Traitement>();
+    private List<Interaction> interactions     = new ArrayList<Interaction>();
 
     @Override
     public int compareTo(miage.gestioncabinet.api.Consultation c) {
@@ -89,7 +91,7 @@ public class ConsultationImpl implements Consultation {
     @Override
     public Boolean ajouterTraitement(Produit produit) {
 
-        Traitement traitement = new miage.gestioncabinet.TraitementImpl();
+        Traitement traitement = new TraitementImpl();
         traitement.setProduit(produit);
 
         if (!prescriptions.contains(traitement)) {
@@ -123,8 +125,8 @@ public class ConsultationImpl implements Consultation {
         DateFormat df1 = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         DateFormat df2 = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-        return "#Consultation du medecin " + medecin + " avec le patient " + patient + " le "
-                + df1.format(dateDebut.getTime()) + " à " + df2.format(dateFin.getTime());
+        return "[CONSULTATION] du medecin " + medecin + "\n-- avec le patient " + patient + "\n-- le " + df1.format(dateDebut.getTime()) + " à " + df2.format(dateFin.getTime())
+                + "\n-- avec le compte rendu : \"" + compteRendu + "\"" + "\n-- avec les prescriptions : " + prescriptions + "\n-- avec les interactions : " + interactions + "\n";
     }
 
     @Override

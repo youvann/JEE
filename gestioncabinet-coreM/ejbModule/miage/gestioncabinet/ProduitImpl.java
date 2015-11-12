@@ -2,8 +2,9 @@ package miage.gestioncabinet;
 
 public class ProduitImpl implements miage.gestioncabinet.api.Produit {
 
-    private String cis;
-    private String nom;
+    private static final long serialVersionUID = 7371634561681344287L;
+    private String            cis;
+    private String            nom;
 
     @Override
     public String getCis() {
@@ -59,7 +60,7 @@ public class ProduitImpl implements miage.gestioncabinet.api.Produit {
 
     @Override
     public String toString() {
-        return "ProduitImpl [cis=" + cis + ", nom=" + nom + "]";
+        return "[produit] (cis=" + cis + ", nom=" + nom + ")";
     }
 
 }
