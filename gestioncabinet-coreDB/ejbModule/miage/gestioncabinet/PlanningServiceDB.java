@@ -1,7 +1,7 @@
 /**
  * 
  */
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,37 +14,31 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
 import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
+import miage.gestioncabinet.api.Personne;
 import miage.gestioncabinet.api.PlanningRemoteService;
 import miage.gestioncabinet.api.Utilisateur;
 
 /**
  * @author youvann
  * 
- *         Stateful avec état utilisé pour les EJB L'EJB est exposé via une
- *         interface locale : PlanningRemoteService
- *         Remote(PlanningRemoteService.class)
+ *         Stateful avec état utilisé pour les EJB L'EJB est exposé via une interface locale : PlanningRemoteService Remote(PlanningRemoteService.class)
  * 
- *         Communiquer entre client de test et application déployée via
- *         l'interface Remote de l'EJB accessbile par n'importe quel programme
- *         client
+ *         Communiquer entre client de test et application déployée via l'interface Remote de l'EJB accessbile par n'importe quel programme client
  * 
- *         Pour déployer l'application faire : - clic droit sur WildFly > add >
- *         gestioncabinet - clic droit sur WildFly > Publish
+ *         Pour déployer l'application faire : - clic droit sur WildFly > add > gestioncabinet - clic droit sur WildFly > Publish
  * 
- *         Vérifier dans WildFly>standalone>deployments que l'EJB a bien été
- *         publié
+ *         Vérifier dans WildFly>standalone>deployments que l'EJB a bien été publié
  * 
- *         L'adresse de notre EJB est
- *         java:global/gestioncabinet/gestioncabinet-coreM/PlanningService!miage
- *         .gestioncabinet.api.PlanningRemoteService
+ *         L'adresse de notre EJB est java:global/gestioncabinet/gestioncabinet-coreM/PlanningService!miage .gestioncabinet.api.PlanningRemoteService
  * 
- *         Aller dans GestionCabinet-test pour lui communiquer l'adresse de
- *         l'EJB
+ *         Aller dans GestionCabinet-test pour lui communiquer l'adresse de l'EJB
  * 
  */
 @Stateful
@@ -61,6 +55,8 @@ public class PlanningServiceDB implements PlanningRemoteService {
     private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
     private List<Patient>      stubPatients      = new ArrayList<Patient>();
     private List<Consultation> stubConsultations = new ArrayList<Consultation>();
+
+
 
     @PostConstruct
     public void init() throws ParseException {
@@ -136,16 +132,14 @@ public class PlanningServiceDB implements PlanningRemoteService {
         stubConsultations.add(c4);
 
         /*
-         * Calendar cal1 = Calendar.getInstance(); cal1.set(Calendar.YEAR,
-         * 2014); cal1.set(Calendar.MONTH, 10); cal1.set(Calendar.DATE, 30);
-         * cal1.set(Calendar.HOUR, 10); cal1.set(Calendar.MINUTE, 00);
-         * cal1.set(Calendar.SECOND, 00); dateDebut = cal1;
+         * Calendar cal1 = Calendar.getInstance(); cal1.set(Calendar.YEAR, 2014); cal1.set(Calendar.MONTH, 10); cal1.set(Calendar.DATE, 30); cal1.set(Calendar.HOUR, 10);
+         * cal1.set(Calendar.MINUTE, 00); cal1.set(Calendar.SECOND, 00); dateDebut = cal1;
          * 
-         * Calendar cal2 = Calendar.getInstance(); cal2.set(Calendar.YEAR,
-         * 2014); cal2.set(Calendar.MONTH, 10); cal2.set(Calendar.DATE, 30);
-         * cal2.set(Calendar.HOUR, 18); cal2.set(Calendar.MINUTE, 00);
-         * cal2.set(Calendar.SECOND, 00); dateFin = cal2;
+         * Calendar cal2 = Calendar.getInstance(); cal2.set(Calendar.YEAR, 2014); cal2.set(Calendar.MONTH, 10); cal2.set(Calendar.DATE, 30); cal2.set(Calendar.HOUR, 18);
+         * cal2.set(Calendar.MINUTE, 00); cal2.set(Calendar.SECOND, 00); dateFin = cal2;
          */
+        Personne p = new PersonneDB();
+        System.out.println(p);
 
     }
 
@@ -166,8 +160,7 @@ public class PlanningServiceDB implements PlanningRemoteService {
     }
 
     @Override
-    public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance)
-            throws GestionCabinetException {
+    public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance) throws GestionCabinetException {
         Patient patientCherche = new PatientDB();
         patientCherche.setNom(nom);
         patientCherche.setPrenom(prenom);
@@ -176,8 +169,7 @@ public class PlanningServiceDB implements PlanningRemoteService {
         List<Patient> patientListFound = new ArrayList<Patient>();
 
         for (Patient patient : stubPatients) {
-            if (patient.getNom().equals(nom) && patient.getPrenom().equals(prenom)
-                    && patient.getDateNaissance().equals(dateNaissance)) {
+            if (patient.getNom().equals(nom) && patient.getPrenom().equals(prenom) && patient.getDateNaissance().equals(dateNaissance)) {
                 patientListFound.add(patient);
             }
         }

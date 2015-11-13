@@ -5,14 +5,14 @@
 	<persistence-unit name="gestioncabinet-coreDB"
 		transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/GestionCabinet</jta-data-source>
-		<class>miage.gestioncabinet.db.ConsultationDB</class>
-		<class>miage.gestioncabinet.db.InteractionDB</class>
-		<class>miage.gestioncabinet.db.MedecinDB</class>
-		<class>miage.gestioncabinet.db.PatientDB</class>
-		<class>miage.gestioncabinet.db.PersonneDB</class>
-		<class>miage.gestioncabinet.db.ProduitDB</class>
-		<class>miage.gestioncabinet.db.TraitementDB</class>
-		<class>miage.gestioncabinet.db.UtilisateurDB</class>
+		<class>miage.gestioncabinet.ConsultationDB</class>
+		<class>miage.gestioncabinet.InteractionDB</class>
+		<class>miage.gestioncabinet.MedecinDB</class>
+		<class>miage.gestioncabinet.PatientDB</class>
+		<class>miage.gestioncabinet.PersonneDB</class>
+		<class>miage.gestioncabinet.ProduitDB</class>
+		<class>miage.gestioncabinet.TraitementDB</class>
+		<class>miage.gestioncabinet.UtilisateurDB</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value=""></property>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"></property>

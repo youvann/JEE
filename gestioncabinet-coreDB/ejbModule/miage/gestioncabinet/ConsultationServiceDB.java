@@ -1,4 +1,4 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class ConsultationServiceDB implements ConsultationRemoteService {
             ProductService productService = new ProductService_Service().getProductServiceHttpPort();
             for (fr.vidal.webservices.productservice.Product p : productService
                     .searchByNameAndType("dolip", ProductType.VIDAL).getProduct()) {
-                Produit produit = new miage.gestioncabinet.db.ProduitDB();
+                Produit produit = new miage.gestioncabinet.ProduitDB();
                 produit.setNom(p.getName());
                 System.out.println(produit);
             }

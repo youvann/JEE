@@ -1,10 +1,10 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "t_utilisateur")
+@Table(name = "Utilisateur")
 public class UtilisateurDB extends PersonneDB implements miage.gestioncabinet.api.Utilisateur {
     private static final long serialVersionUID = -2181372837758033155L;
     private String            compte;

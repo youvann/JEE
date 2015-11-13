@@ -55,4 +55,9 @@ public class InteractionImpl implements miage.gestioncabinet.api.Interaction {
         this.precautions = precautions;
     }
 
+    @Override
+    public String toString() {
+        return "InteractionImpl [produitA=" + produitA + ", produitB=" + produitB + ", severite=" + severite + ", risques=" + risques + ", precautions=" + precautions + "]";
+    }
+
 }

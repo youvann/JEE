@@ -1,4 +1,4 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;

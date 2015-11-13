@@ -1,4 +1,4 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -98,7 +98,7 @@ public class ConsultationDB implements Consultation {
     @Override
     public Boolean ajouterTraitement(Produit produit) {
 
-        Traitement traitement = new miage.gestioncabinet.db.TraitementDB();
+        Traitement traitement = new miage.gestioncabinet.TraitementDB();
         traitement.setProduit(produit);
 
         if (!prescriptions.contains(traitement)) {

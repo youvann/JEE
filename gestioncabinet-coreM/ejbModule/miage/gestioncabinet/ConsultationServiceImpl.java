@@ -9,16 +9,13 @@ import javax.ejb.Stateful;
 
 import fr.vidal.webservices.interactionservice.ArrayOfInt;
 import fr.vidal.webservices.interactionservice.ArrayOfInteractionCouple;
-import fr.vidal.webservices.interactionservice.ArrayOfProduct;
 import fr.vidal.webservices.interactionservice.InteractionCouple;
-import fr.vidal.webservices.interactionservice.InteractionResult;
 import fr.vidal.webservices.interactionservice.InteractionService;
 import fr.vidal.webservices.interactionservice.InteractionService_Service;
 import fr.vidal.webservices.interactionservice.InteractionSeverityType;
 import fr.vidal.webservices.productservice.Product;
 import fr.vidal.webservices.productservice.ProductService;
 import fr.vidal.webservices.productservice.ProductService_Service;
-import fr.vidal.webservices.productservice.ProductType;
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.ConsultationRemoteService;
 import miage.gestioncabinet.api.GestionCabinetException;
@@ -61,7 +58,7 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
     public List<Produit> rechercherMedicament(String keyword) throws GestionCabinetException {
         List<Produit> produits = new ArrayList<Produit>();
 
-        for (Product p : productService.searchByNameAndType(keyword, ProductType.VIDAL).getProduct()) {
+        for (Product p : productService.searchByName(keyword).getProduct()) {
             Produit produit = new ProduitImpl();
             produit.setNom(p.getName());
             produit.setCis(p.getCis());
@@ -78,7 +75,8 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
         ArrayOfInt productIds = new ArrayOfInt();
 
         for (Traitement traitement : traitements) {
-            productIds.getInt().add(Integer.parseInt(traitement.getProduit().getCis()));
+            Product product = productService.searchByCis(traitement.getProduit().getCis());
+            productIds.getInt().add(product.getId());
         }
 
         // productIds.getInt().add(63368332);
@@ -89,7 +87,8 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
 
         // Récupération des interactions trouvées
         List<Interaction> interactionsFound = new ArrayList<Interaction>();
-        ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.CONTRAINDICATIONS).getInteractionCoupleList();
+        ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.getInteractionCouplesForProductIds(productIds, InteractionSeverityType.TAKE_INTO_ACCOUNT).getInteractionCoupleList();
+
         for (InteractionCouple interactionCouple : arrayInteractionsCouple.getInteractionCouple()) {
             Interaction interaction = new InteractionImpl();
             // Précautions

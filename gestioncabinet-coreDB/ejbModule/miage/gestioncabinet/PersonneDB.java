@@ -1,17 +1,31 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PersistenceContext;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import miage.gestioncabinet.api.Personne;
+
 @Entity
-@Table(name = "t_personne")
+@Table(name = "Personne")
+@SequenceGenerator(name = "personne_id", sequenceName = "Personne_id_seq", allocationSize = 1)
 public class PersonneDB implements miage.gestioncabinet.api.Personne {
     private static final long serialVersionUID = 1500822243878580383L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_id")
     protected Long            id;
+    @Column(name = "nom")
     protected String          nom;
+    @Column(name = "prenom")
     protected String          prenom;
+    @PersistenceContext(unitName = "MIDB")
+    private EntityManager      em;
 
     @Override
     public Long getId() {
@@ -40,6 +54,8 @@ public class PersonneDB implements miage.gestioncabinet.api.Personne {
 
     @Override
     public String toString() {
+        Personne p = em.find(PersonneDB.class, 1);
+        System.out.println(p);
         return id + ", " + nom + ", " + prenom;
     }
 

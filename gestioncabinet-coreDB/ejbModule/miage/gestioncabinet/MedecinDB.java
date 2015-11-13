@@ -1,4 +1,4 @@
-package miage.gestioncabinet.db;
+package miage.gestioncabinet;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
