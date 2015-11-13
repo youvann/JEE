@@ -16,6 +16,7 @@ import fr.vidal.webservices.interactionservice.InteractionSeverityType;
 import fr.vidal.webservices.productservice.Product;
 import fr.vidal.webservices.productservice.ProductService;
 import fr.vidal.webservices.productservice.ProductService_Service;
+import fr.vidal.webservices.productservice.ProductType;
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.ConsultationRemoteService;
 import miage.gestioncabinet.api.GestionCabinetException;
@@ -87,7 +88,7 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
 
         // Récupération des interactions trouvées
         List<Interaction> interactionsFound = new ArrayList<Interaction>();
-        ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.getInteractionCouplesForProductIds(productIds, InteractionSeverityType.TAKE_INTO_ACCOUNT).getInteractionCoupleList();
+        ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.TAKE_INTO_ACCOUNT).getInteractionCoupleList();
 
         for (InteractionCouple interactionCouple : arrayInteractionsCouple.getInteractionCouple()) {
             Interaction interaction = new InteractionImpl();
@@ -102,7 +103,7 @@ public class ConsultationServiceImpl implements ConsultationRemoteService {
             Produit produitB = new ProduitImpl();
             produitB.setCis(interactionCouple.getProductB().getCis());
             produitB.setNom(interactionCouple.getProductB().getName());
-            interaction.setProduitA(produitB);
+            interaction.setProduitB(produitB);
             // Risques
             interaction.setRisques(interactionCouple.getRiskComment());
             // Sévérité

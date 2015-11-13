@@ -104,14 +104,12 @@ public class ConsultationTestClient {
 
                 System.out.println(medecin + " décide de supprimer les deux premiers produits incriminés de sa prescription");
 
-                if (!consultation.getInteractions().isEmpty()) { // le if a été rajouté en plus, sinon ça lève une erreur s'il n'y a pas d'interactions
-                    Interaction interaction = consultation.getInteractions().get(0);
+                Interaction interaction = consultation.getInteractions().get(0);
 
-                    for (Traitement t : consultation.getPrescription()) {
-                        if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
-                            if (consultation.supprimerTraitement(t)) {
-                                System.out.println(medecin + " a supprimé avec succès le " + t);
-                            }
+                for (Traitement t : consultation.getPrescription()) {
+                    if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
+                        if (consultation.supprimerTraitement(t)) {
+                            System.out.println(medecin + " a supprimé avec succès le " + t);
                         }
                     }
                 }
