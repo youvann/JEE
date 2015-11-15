@@ -1,8 +1,9 @@
 package miage.gestioncabinet;
 
 import miage.gestioncabinet.api.Produit;
+import miage.gestioncabinet.api.Traitement;
 
-public class TraitementImpl implements miage.gestioncabinet.api.Traitement {
+public class TraitementImpl implements Traitement {
 
     private static final long serialVersionUID = 8600415727819596688L;
     private Produit           produit;

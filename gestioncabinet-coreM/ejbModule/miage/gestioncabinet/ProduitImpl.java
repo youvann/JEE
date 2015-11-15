@@ -1,6 +1,8 @@
 package miage.gestioncabinet;
 
-public class ProduitImpl implements miage.gestioncabinet.api.Produit {
+import miage.gestioncabinet.api.Produit;
+
+public class ProduitImpl implements Produit {
 
     private static final long serialVersionUID = 7371634561681344287L;
     private String            cis;

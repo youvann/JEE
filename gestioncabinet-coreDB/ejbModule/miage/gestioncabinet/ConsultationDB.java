@@ -1,15 +1,16 @@
 package miage.gestioncabinet;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.resource.cci.Interaction;
 
 import miage.gestioncabinet.api.Consultation;
+import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Produit;
@@ -19,16 +20,17 @@ import miage.gestioncabinet.api.Traitement;
 @Table(name = "t_consultation")
 public class ConsultationDB implements Consultation {
 
-    private static final long serialVersionUID = -640614506192476239L;
+    private static final long serialVersionUID = -6807227147670627833L;
+
     @Id
     private long              id;
-    private Patient           patient          = new PatientDB();
+    private Patient           patient;
     private Medecin           medecin;
     private Calendar          dateDebut;
     private Calendar          dateFin;
     private String            compteRendu;
-    private List<Traitement>  prescriptions;
-    private List<Interaction> interactions;
+    private List<Traitement>  prescriptions    = new ArrayList<Traitement>();
+    private List<Interaction> interactions     = new ArrayList<Interaction>();
 
     @Override
     public int compareTo(miage.gestioncabinet.api.Consultation c) {
@@ -91,6 +93,16 @@ public class ConsultationDB implements Consultation {
     }
 
     @Override
+    public List<Interaction> getInteractions() {
+        return null;
+    }
+
+    @Override
+    public void setInteractions(List<Interaction> interactions) {
+
+    }
+
+    @Override
     public List<Traitement> getPrescription() {
         return prescriptions;
     }
@@ -98,7 +110,7 @@ public class ConsultationDB implements Consultation {
     @Override
     public Boolean ajouterTraitement(Produit produit) {
 
-        Traitement traitement = new miage.gestioncabinet.TraitementDB();
+        Traitement traitement = new TraitementDB();
         traitement.setProduit(produit);
 
         if (!prescriptions.contains(traitement)) {
@@ -122,8 +134,8 @@ public class ConsultationDB implements Consultation {
         DateFormat df1 = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         DateFormat df2 = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-        return "#Consultation du medecin " + medecin + " avec le patient " + patient + " le "
-                + df1.format(dateDebut.getTime()) + " à " + df2.format(dateFin.getTime());
+        return "[CONSULTATION] du medecin " + medecin + "\n-- avec le patient " + patient + "\n-- le " + df1.format(dateDebut.getTime()) + " à " + df2.format(dateFin.getTime())
+                + "\n-- avec le compte rendu : \"" + compteRendu + "\"" + "\n-- avec les prescriptions : " + prescriptions + "\n-- avec les interactions : " + interactions + "\n";
     }
 
     @Override
@@ -185,18 +197,6 @@ public class ConsultationDB implements Consultation {
         } else if (!prescriptions.equals(other.prescriptions))
             return false;
         return true;
-    }
-
-    @Override
-    public List<miage.gestioncabinet.api.Interaction> getInteractions() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setInteractions(List<miage.gestioncabinet.api.Interaction> interactions) {
-        // TODO Auto-generated method stub
-
     }
 
 }

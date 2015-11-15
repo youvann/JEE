@@ -5,9 +5,11 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import miage.gestioncabinet.api.Patient;
+
 @Entity
 @Table(name = "t_patient")
-public class PatientDB extends miage.gestioncabinet.PersonneDB implements miage.gestioncabinet.api.Patient {
+public class PatientDB extends PersonneDB implements Patient {
     private static final long serialVersionUID = 1419587895063369167L;
     private Integer           age;
     private Calendar          dateNaissance;

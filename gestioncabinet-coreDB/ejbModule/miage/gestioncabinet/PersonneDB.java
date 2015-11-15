@@ -13,9 +13,9 @@ import javax.persistence.Table;
 import miage.gestioncabinet.api.Personne;
 
 @Entity
-@Table(name = "Personne")
+@Table(name = "t_personne")
 @SequenceGenerator(name = "personne_id", sequenceName = "Personne_id_seq", allocationSize = 1)
-public class PersonneDB implements miage.gestioncabinet.api.Personne {
+public class PersonneDB implements Personne {
     private static final long serialVersionUID = 1500822243878580383L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_id")
@@ -25,7 +25,7 @@ public class PersonneDB implements miage.gestioncabinet.api.Personne {
     @Column(name = "prenom")
     protected String          prenom;
     @PersistenceContext(unitName = "MIDB")
-    private EntityManager      em;
+    private EntityManager     em;
 
     @Override
     public Long getId() {

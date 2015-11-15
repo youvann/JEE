@@ -2,7 +2,9 @@ package miage.gestioncabinet;
 
 import java.util.Calendar;
 
-public class PatientImpl extends miage.gestioncabinet.PersonneImpl implements miage.gestioncabinet.api.Patient {
+import miage.gestioncabinet.api.Patient;
+
+public class PatientImpl extends PersonneImpl implements Patient {
 
     private static final long serialVersionUID = 6902763909172284957L;
     private Integer           age;

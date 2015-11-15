@@ -2,8 +2,10 @@ package miage.gestioncabinet;
 
 import javax.persistence.Embeddable;
 
+import miage.gestioncabinet.api.Produit;
+
 @Embeddable
-public class ProduitDB implements miage.gestioncabinet.api.Produit {
+public class ProduitDB implements Produit {
 
     private static final long serialVersionUID = -1562087114201628808L;
     private String            cis;
@@ -63,7 +65,7 @@ public class ProduitDB implements miage.gestioncabinet.api.Produit {
 
     @Override
     public String toString() {
-        return "ProduitImpl [cis=" + cis + ", nom=" + nom + "]";
+        return "[produit] (cis=" + cis + ", nom=" + nom + ")";
     }
 
 }

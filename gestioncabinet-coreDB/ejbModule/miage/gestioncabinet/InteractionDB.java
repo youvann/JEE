@@ -17,12 +17,10 @@ public class InteractionDB implements miage.gestioncabinet.api.Interaction {
     @Id
     private long              id;
     @Embedded
-    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit1_cis") ),
-            @AttributeOverride(name = "nom", column = @Column(name = "produit1_nom") ) })
+    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit1_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit1_nom") ) })
     private ProduitDB         produitA;
     @Embedded
-    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit2_cis") ),
-            @AttributeOverride(name = "nom", column = @Column(name = "produit2_nom") ) })
+    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit2_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit2_nom") ) })
     private ProduitDB         produitB;
 
     private String            severite;
@@ -71,6 +69,11 @@ public class InteractionDB implements miage.gestioncabinet.api.Interaction {
 
     public void setPrecautions(String precautions) {
         this.precautions = precautions;
+    }
+
+    @Override
+    public String toString() {
+        return "Interaction [produitA=" + produitA + ", produitB=" + produitB + ", severite=" + severite + ", risques=" + risques + ", precautions=" + precautions + "]";
     }
 
 }

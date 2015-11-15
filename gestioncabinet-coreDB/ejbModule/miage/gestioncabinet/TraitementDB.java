@@ -67,4 +67,9 @@ public class TraitementDB implements miage.gestioncabinet.api.Traitement {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "[Traitement] (" + produit + " et la posologie " + posologie + ")";
+    }
+
 }

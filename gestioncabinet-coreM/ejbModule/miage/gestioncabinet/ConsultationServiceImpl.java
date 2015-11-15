@@ -16,7 +16,6 @@ import fr.vidal.webservices.interactionservice.InteractionSeverityType;
 import fr.vidal.webservices.productservice.Product;
 import fr.vidal.webservices.productservice.ProductService;
 import fr.vidal.webservices.productservice.ProductService_Service;
-import fr.vidal.webservices.productservice.ProductType;
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.ConsultationRemoteService;
 import miage.gestioncabinet.api.GestionCabinetException;

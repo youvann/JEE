@@ -14,14 +14,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
 import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
-import miage.gestioncabinet.api.Personne;
 import miage.gestioncabinet.api.PlanningRemoteService;
 import miage.gestioncabinet.api.Utilisateur;
 
@@ -55,8 +52,6 @@ public class PlanningServiceDB implements PlanningRemoteService {
     private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
     private List<Patient>      stubPatients      = new ArrayList<Patient>();
     private List<Consultation> stubConsultations = new ArrayList<Consultation>();
-
-
 
     @PostConstruct
     public void init() throws ParseException {
@@ -97,49 +92,8 @@ public class PlanningServiceDB implements PlanningRemoteService {
         stubPatients.add(p2);
         stubPatients.add(p3);
 
-        // Consultations
-        // m1
-        Consultation c1 = new ConsultationDB();
-        c1.setPatient(p1);
-        c1.setMedecin(m1);
-        c1.setDebut(new GregorianCalendar(2015, 10, 30, 16, 00));
-        c1.setFin(new GregorianCalendar(2015, 10, 30, 16, 15));
-
-        Consultation c2 = new ConsultationDB();
-        c2.setPatient(p2);
-        c2.setMedecin(m1);
-        c2.setDebut(new GregorianCalendar(2015, 10, 30, 16, 15));
-        c2.setFin(new GregorianCalendar(2015, 10, 30, 16, 30));
-
-        Consultation c3 = new ConsultationDB();
-        c3.setPatient(p3);
-        c3.setMedecin(m1);
-        c3.setDebut(new GregorianCalendar(2015, 10, 30, 16, 30));
-        c3.setFin(new GregorianCalendar(2015, 10, 30, 16, 45));
-
-        // m2
-        Consultation c4 = new ConsultationDB();
-        c4.setPatient(p1);
-        c4.setMedecin(m2);
-        c4.setDebut(new GregorianCalendar(2015, 10, 31, 12, 45));
-        c4.setFin(new GregorianCalendar(2015, 10, 31, 13, 00));
-
-        // m1
-        stubConsultations.add(c2);
-        stubConsultations.add(c1);
-        stubConsultations.add(c3);
-        // m2
-        stubConsultations.add(c4);
-
-        /*
-         * Calendar cal1 = Calendar.getInstance(); cal1.set(Calendar.YEAR, 2014); cal1.set(Calendar.MONTH, 10); cal1.set(Calendar.DATE, 30); cal1.set(Calendar.HOUR, 10);
-         * cal1.set(Calendar.MINUTE, 00); cal1.set(Calendar.SECOND, 00); dateDebut = cal1;
-         * 
-         * Calendar cal2 = Calendar.getInstance(); cal2.set(Calendar.YEAR, 2014); cal2.set(Calendar.MONTH, 10); cal2.set(Calendar.DATE, 30); cal2.set(Calendar.HOUR, 18);
-         * cal2.set(Calendar.MINUTE, 00); cal2.set(Calendar.SECOND, 00); dateFin = cal2;
-         */
-        Personne p = new PersonneDB();
-        System.out.println(p);
+        dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
+        dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
     }
 
@@ -161,11 +115,6 @@ public class PlanningServiceDB implements PlanningRemoteService {
 
     @Override
     public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance) throws GestionCabinetException {
-        Patient patientCherche = new PatientDB();
-        patientCherche.setNom(nom);
-        patientCherche.setPrenom(prenom);
-        patientCherche.setDateNaissance(dateNaissance);
-
         List<Patient> patientListFound = new ArrayList<Patient>();
 
         for (Patient patient : stubPatients) {
@@ -179,19 +128,6 @@ public class PlanningServiceDB implements PlanningRemoteService {
 
     @Override
     public Calendar getDateDebut() {
-        List<Consultation> rdvs = listerRdv();
-        if (rdvs.isEmpty()) {
-            Calendar fakeDate = Calendar.getInstance();
-            fakeDate.set(Calendar.YEAR, 2000);
-            fakeDate.set(Calendar.MONTH, 12);
-            fakeDate.set(Calendar.DATE, 30);
-            fakeDate.set(Calendar.HOUR, 10);
-            fakeDate.set(Calendar.MINUTE, 00);
-            fakeDate.set(Calendar.SECOND, 00);
-            dateDebut = fakeDate;
-        } else {
-            dateDebut = listerRdv().get(0).getDebut();
-        }
         return dateDebut;
     }
 
@@ -202,19 +138,6 @@ public class PlanningServiceDB implements PlanningRemoteService {
 
     @Override
     public Calendar getDateFin() {
-        List<Consultation> rdvs = listerRdv();
-        if (rdvs.isEmpty()) {
-            Calendar fakeDate = Calendar.getInstance();
-            fakeDate.set(Calendar.YEAR, 2000);
-            fakeDate.set(Calendar.MONTH, 12);
-            fakeDate.set(Calendar.DATE, 30);
-            fakeDate.set(Calendar.HOUR, 11);
-            fakeDate.set(Calendar.MINUTE, 00);
-            fakeDate.set(Calendar.SECOND, 00);
-            dateFin = fakeDate;
-        } else {
-            dateFin = listerRdv().get(rdvs.size() - 1).getFin();
-        }
         return dateFin;
     }
 
@@ -238,8 +161,16 @@ public class PlanningServiceDB implements PlanningRemoteService {
     public List<Consultation> listerRdv() {
         List<Consultation> consultationTmp = new ArrayList<Consultation>();
         for (Consultation consultation : stubConsultations) {
+
+            // Affiche uniquement le rendez-vous du médecin courant
             if (consultation.getMedecin().equals(medecinCourant)) {
-                consultationTmp.add(consultation);
+
+                Boolean conditionDateFin = consultation.getFin().before(getDateFin()) || consultation.getFin().equals(getDateFin());
+                // Affiche uniquement les rendez-vous du jour
+                if (consultation.getDebut().after(getDateDebut()) && conditionDateFin || consultation.getDebut().equals(getDateDebut()) && conditionDateFin) {
+                    consultationTmp.add(consultation);
+                }
+
             }
         }
 
@@ -261,14 +192,16 @@ public class PlanningServiceDB implements PlanningRemoteService {
     // Création d'un rendez-vous
     @Override
     public Consultation creerRdv(Calendar date) {
+        // Un rdv dure 20 minutes
+        Calendar dateFin = (Calendar) date.clone();
+        dateFin.add(Calendar.MINUTE, 20);
+
         Consultation rdv = new ConsultationDB();
-
         rdv.setDebut(date);
-        date.add(Calendar.MINUTE, 20);
-        rdv.setFin(date);
+        rdv.setFin(dateFin);
         rdv.setMedecin(medecinCourant);
-        return rdv;
 
+        return rdv;
     }
 
     // Modification d'un rendez-vous
@@ -282,8 +215,6 @@ public class PlanningServiceDB implements PlanningRemoteService {
     public void supprimerRdv() throws GestionCabinetException {
         if (stubConsultations.contains(rdvCourant)) {
             stubConsultations.remove(rdvCourant);
-        } else {
-            System.out.println("ok");
         }
     }
 
