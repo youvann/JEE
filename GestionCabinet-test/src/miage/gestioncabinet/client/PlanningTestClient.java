@@ -14,13 +14,9 @@ import com.novarem.jndi.ServiceLocator;
 import com.novarem.jndi.ServiceLocatorException;
 
 /**
- * Programme client permettant de tester le planning. Déployer sur JBoss 7
- * l'application JEE de gestion du cabinet L'application client a besoin de
- * référencer dans son classpath (clic droit sur le projet > Properties > Java
- * Build Path : - le service locator (projet com.novarem.jndi), - le projet
- * contenant l'interface distante (idéalement le projet miage.gestioncabinet.api
- * qui est un simple "jar" compatible Java SE), - le projet EJB (dépendance à
- * l'exécution)
+ * Programme client permettant de tester le planning. Déployer sur JBoss 7 l'application JEE de gestion du cabinet L'application client a besoin de référencer dans son classpath
+ * (clic droit sur le projet > Properties > Java Build Path : - le service locator (projet com.novarem.jndi), - le projet contenant l'interface distante (idéalement le projet
+ * miage.gestioncabinet.api qui est un simple "jar" compatible Java SE), - le projet EJB (dépendance à l'exécution)
  * 
  * @author sraybaud
  *
@@ -43,10 +39,10 @@ public class PlanningTestClient {
         // Rajouter / après ..core-M/
         // rajouter ?stateful à la fin
         //
-        
-        String service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningServiceImpl!miage.gestioncabinet.api.PlanningRemoteService?stateful";
-        
-        //String service = "ejb:gestioncabinet/gestioncabinet-coreDB//PlanningServiceDB!miage.gestioncabinet.api.PlanningRemoteService?stateful";
+
+        String service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningServiceM!miage.gestioncabinet.api.PlanningRemoteService?stateful";
+
+        // String service = "ejb:gestioncabinet/gestioncabinet-coreDB//PlanningServiceDB!miage.gestioncabinet.api.PlanningRemoteService?stateful";
         try {
             ServiceLocator locator = ServiceLocator.INSTANCE;
             this.ejb = (PlanningRemoteService) locator.getRemoteInterface(service);
@@ -73,8 +69,7 @@ public class PlanningTestClient {
             DateFormat df1 = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
             DateFormat df2 = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-            System.out.println("Planning du jour : du " + df1.format(app.ejb.getDateDebut().getTime()) + " au "
-                    + df2.format(app.ejb.getDateFin().getTime()));
+            System.out.println("Planning du jour : du " + df1.format(app.ejb.getDateDebut().getTime()) + " au " + df2.format(app.ejb.getDateFin().getTime()));
 
             String[] noms = { "MARTIN", "DUPOND", "GIUDICELLI" };
             String[] prenoms = { "Jean", "Henri", "Jeannette" };
@@ -90,8 +85,7 @@ public class PlanningTestClient {
                 Calendar dateNaissance = Calendar.getInstance();
                 dateNaissance.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(datesNaissance[i]));
                 List<Patient> patients = app.ejb.rechercherPatients(noms[i], prenoms[i], dateNaissance);
-                System.out.println("Recherche du patient : " + noms[i] + " " + prenoms[i] + " " + datesNaissance[i]
-                        + " : " + patients.size() + " patient(s) trouvé(s)");
+                System.out.println("Recherche du patient : " + noms[i] + " " + prenoms[i] + " " + datesNaissance[i] + " : " + patients.size() + " patient(s) trouvé(s)");
                 if (patients.isEmpty()) {
                     rdv.getPatient().setNom(noms[i]);
                     rdv.getPatient().setPrenom(prenoms[i]);
@@ -106,8 +100,7 @@ public class PlanningTestClient {
             }
 
             List<Consultation> rdvs = app.ejb.listerRdv();
-            System.out.println(
-                    "Rercherche des " + rdvs.size() + " rendez-vous pris pour la journée de " + medecin + " :");
+            System.out.println("Rercherche des " + rdvs.size() + " rendez-vous pris pour la journée de " + medecin + " :");
             for (Consultation rdv : rdvs) {
                 System.out.println("- " + rdv);
             }

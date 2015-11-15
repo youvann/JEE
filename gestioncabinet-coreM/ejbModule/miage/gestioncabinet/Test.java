@@ -3,7 +3,6 @@ package miage.gestioncabinet;
 import fr.vidal.webservices.interactionservice.ArrayOfInt;
 import fr.vidal.webservices.interactionservice.ArrayOfInteractionCouple;
 import fr.vidal.webservices.interactionservice.InteractionCouple;
-import fr.vidal.webservices.interactionservice.InteractionResult;
 import fr.vidal.webservices.interactionservice.InteractionService;
 import fr.vidal.webservices.interactionservice.InteractionService_Service;
 import fr.vidal.webservices.interactionservice.InteractionSeverityType;
