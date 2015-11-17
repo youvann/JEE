@@ -21,7 +21,7 @@ import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
-public class ConsultationServiceDB implements ConsultationRemoteService {
+public class ConsultationRemoteServiceDB implements ConsultationRemoteService {
 
     // Web service
     private ProductService     productService;

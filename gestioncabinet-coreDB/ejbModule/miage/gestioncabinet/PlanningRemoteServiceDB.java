@@ -40,7 +40,7 @@ import miage.gestioncabinet.api.Utilisateur;
  */
 @Stateful
 @Remote(PlanningRemoteService.class)
-public class PlanningServiceDB implements PlanningRemoteService {
+public class PlanningRemoteServiceDB implements PlanningRemoteService {
 
     private Utilisateur        utilisateur       = null;
     private Calendar           dateDebut;
