@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Remote;
+import javax.ejb.Stateful;
 
 import fr.vidal.webservices.interactionservice.ArrayOfInt;
 import fr.vidal.webservices.interactionservice.ArrayOfInteractionCouple;
@@ -21,7 +23,9 @@ import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
-public class ConsultationRemoteServiceDB implements ConsultationRemoteService {
+@Stateful
+@Remote(ConsultationRemoteService.class)
+public class ConsultationMService implements ConsultationRemoteService {
 
     // Web service
     private ProductService     productService;
@@ -55,7 +59,7 @@ public class ConsultationRemoteServiceDB implements ConsultationRemoteService {
         List<Produit> produits = new ArrayList<Produit>();
 
         for (Product p : productService.searchByName(keyword).getProduct()) {
-            Produit produit = new ProduitDB();
+            Produit produit = new ProduitM();
             produit.setNom(p.getName());
             produit.setCis(p.getCis());
             produits.add(produit);
@@ -86,16 +90,16 @@ public class ConsultationRemoteServiceDB implements ConsultationRemoteService {
         ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.TAKE_INTO_ACCOUNT).getInteractionCoupleList();
 
         for (InteractionCouple interactionCouple : arrayInteractionsCouple.getInteractionCouple()) {
-            Interaction interaction = new InteractionDB();
+            Interaction interaction = new InteractionM();
             // Précautions
             interaction.setPrecautions(interactionCouple.getPrecautionComment());
             // Produit A
-            Produit produitA = new ProduitDB();
+            Produit produitA = new ProduitM();
             produitA.setCis(interactionCouple.getProductA().getCis());
             produitA.setNom(interactionCouple.getProductA().getName());
             interaction.setProduitA(produitA);
             // Produit B
-            Produit produitB = new ProduitDB();
+            Produit produitB = new ProduitM();
             produitB.setCis(interactionCouple.getProductB().getCis());
             produitB.setNom(interactionCouple.getProductB().getName());
             interaction.setProduitB(produitB);

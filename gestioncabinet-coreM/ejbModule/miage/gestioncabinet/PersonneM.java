@@ -1,34 +1,11 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+public class PersonneM implements miage.gestioncabinet.api.Personne {
 
-import miage.gestioncabinet.api.Personne;
-
-@Entity
-@Table(name = "personne")
-@SequenceGenerator(name = "personne_id", sequenceName = "personne_id_seq", allocationSize = 1)
-public class PersonneDB implements Personne {
-    private static final long serialVersionUID = 1500822243878580383L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_id")
-    private Long              id;
-
-    @Column(name = "nom")
-    private String            nom;
-
-    @Column(name = "prenom")
-    private String            prenom;
-
-    /*
-     * @PersistenceContext(unitName = "MIDB") private EntityManager em;
-     */
+    private static final long serialVersionUID = -8549494117177618535L;
+    protected Long            id;
+    protected String          nom;
+    protected String          prenom;
 
     @Override
     public Long getId() {
@@ -57,8 +34,6 @@ public class PersonneDB implements Personne {
 
     @Override
     public String toString() {
-        // Personne p = em.find(PersonneDB.class, 1);
-        // System.out.println(p);
         return id + ", " + nom + ", " + prenom;
     }
 
@@ -80,7 +55,7 @@ public class PersonneDB implements Personne {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PersonneDB other = (PersonneDB) obj;
+        PersonneM other = (PersonneM) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

@@ -2,15 +2,11 @@ package miage.gestioncabinet;
 
 import java.util.Calendar;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import miage.gestioncabinet.api.Patient;
 
-@Entity
-@Table(name = "patient")
-public class PatientDB extends PersonneDB implements Patient {
-    private static final long serialVersionUID = 1419587895063369167L;
+public class PatientM extends PersonneM implements Patient {
+
+    private static final long serialVersionUID = 6902763909172284957L;
     private Integer           age;
     private Calendar          dateNaissance;
 
@@ -52,7 +48,7 @@ public class PatientDB extends PersonneDB implements Patient {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PatientDB other = (PatientDB) obj;
+        PatientM other = (PatientM) obj;
         if (age == null) {
             if (other.age != null)
                 return false;

@@ -1,14 +1,8 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class UtilisateurM extends PersonneM implements miage.gestioncabinet.api.Utilisateur {
 
-import miage.gestioncabinet.api.Utilisateur;
-
-@Entity
-@Table(name = "utilisateur")
-public class UtilisateurDB extends PersonneDB implements Utilisateur {
-    private static final long serialVersionUID = -2181372837758033155L;
+    private static final long serialVersionUID = -5729781749590530157L;
     private String            compte;
 
     @Override
@@ -41,7 +35,7 @@ public class UtilisateurDB extends PersonneDB implements Utilisateur {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        UtilisateurDB other = (UtilisateurDB) obj;
+        UtilisateurM other = (UtilisateurM) obj;
         if (compte == null) {
             if (other.compte != null)
                 return false;

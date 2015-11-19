@@ -1,26 +1,12 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import miage.gestioncabinet.api.Produit;
+import miage.gestioncabinet.api.Traitement;
 
-@Entity
-@Table(name = "traitement")
-@SequenceGenerator(name = "traitement_id", sequenceName = "traitement_id_seq", allocationSize = 1)
-public class TraitementDB implements miage.gestioncabinet.api.Traitement {
-    private static final long serialVersionUID = -868044482900848450L;
+public class TraitementM implements Traitement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "traitement_id")
-    private long              id;
-
+    private static final long serialVersionUID = 8600415727819596688L;
     private Produit           produit;
-
     private String            posologie;
 
     @Override
@@ -61,7 +47,7 @@ public class TraitementDB implements miage.gestioncabinet.api.Traitement {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        TraitementDB other = (TraitementDB) obj;
+        TraitementM other = (TraitementM) obj;
         if (posologie == null) {
             if (other.posologie != null)
                 return false;

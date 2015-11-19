@@ -40,8 +40,8 @@ public class PlanningTestClient {
         // rajouter ?stateful à la fin
         //
 
-        String service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningRemoteServiceM!miage.gestioncabinet.api.PlanningRemoteService?stateful";
-        //String service = "ejb:gestioncabinet/gestioncabinet-coreDB//PlanningServiceDB!miage.gestioncabinet.api.PlanningRemoteService?stateful";
+        String service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningMService!miage.gestioncabinet.api.PlanningRemoteService?stateful";
+        //String service = "ejb:gestioncabinet/gestioncabinet-coreDB//PlanningDBService!miage.gestioncabinet.api.PlanningRemoteService?stateful";
         try {
             ServiceLocator locator = ServiceLocator.INSTANCE;
             this.ejb = (PlanningRemoteService) locator.getRemoteInterface(service);

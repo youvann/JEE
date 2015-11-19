@@ -1,14 +1,8 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class MedecinM extends UtilisateurM implements miage.gestioncabinet.api.Medecin {
 
-import miage.gestioncabinet.api.Medecin;
-
-@Entity
-@Table(name = "medecin")
-public class MedecinDB extends UtilisateurDB implements Medecin {
-    private static final long serialVersionUID = -7477138413558824643L;
+    private static final long serialVersionUID = -1662860187264840874L;
     private String            rpps;
 
     @Override
@@ -37,7 +31,7 @@ public class MedecinDB extends UtilisateurDB implements Medecin {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        MedecinDB other = (MedecinDB) obj;
+        MedecinM other = (MedecinM) obj;
         if (rpps == null) {
             if (other.rpps != null)
                 return false;
