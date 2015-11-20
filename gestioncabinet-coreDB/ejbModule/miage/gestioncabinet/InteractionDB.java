@@ -1,31 +1,17 @@
 package miage.gestioncabinet;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 import miage.gestioncabinet.api.Produit;
 
-@Entity
-@Table(name = "interaction")
-@SequenceGenerator(name = "interaction_id", sequenceName = "interaction_id_seq", allocationSize = 1)
 public class InteractionDB implements miage.gestioncabinet.api.Interaction {
     private static final long serialVersionUID = 8754798513096945732L;
 
     @Id
     private long              id;
 
-    @Embedded
-    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit1_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit1_nom") ) })
     private ProduitDB         produitA;
 
-    @Embedded
-    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit2_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit2_nom") ) })
     private ProduitDB         produitB;
 
     private String            severite;

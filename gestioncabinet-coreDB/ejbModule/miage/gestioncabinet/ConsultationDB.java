@@ -5,21 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Medecin;
@@ -27,10 +12,6 @@ import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
-@Entity
-@Access(AccessType.FIELD)
-@Table(name = "consultation")
-@SequenceGenerator(name = "consultation_id", sequenceName = "consultation_id_seq", allocationSize = 1)
 public class ConsultationDB implements Consultation {
 
     /*
@@ -41,35 +22,20 @@ public class ConsultationDB implements Consultation {
 
     private static final long serialVersionUID = 7075372281144303720L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consultation_id")
     private long              id;
 
-    @Column(name = "date_debut")
-    @Temporal(TemporalType.TIMESTAMP)
     private Calendar          dateDebut;
 
-    @Column(name = "date_fin")
-    @Temporal(TemporalType.TIMESTAMP)
     private Calendar          dateFin;
 
-    @Column(name = "compte_rendu")
     private String            compteRendu;
 
-    @OneToMany(targetEntity = TraitementDB.class) // Une consultation possède plusieurs prescriptions
-    @JoinColumn(name = "consultation_id", referencedColumnName = "id")
     private List<Traitement>  prescriptions;
 
-    @OneToMany(targetEntity = InteractionDB.class) // Une consultation possède plusieurs interactions
-    @JoinColumn(name = "interaction_id", referencedColumnName = "id")
     private List<Interaction> interactions;
 
-    @ManyToOne(targetEntity = PatientDB.class) // Plusieurs consultations peuvent appartenir à un même patient
-    @JoinColumn(name = "patient_id")
     private Patient           patient;
 
-    @ManyToOne(targetEntity = MedecinDB.class) // Plusieurs consultations peuvent appartenir à un même médecin
-    @JoinColumn(name = "medecin_id")
     private Medecin           medecin;
 
     public ConsultationDB() {

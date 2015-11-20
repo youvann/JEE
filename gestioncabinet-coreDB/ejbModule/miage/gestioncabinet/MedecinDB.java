@@ -1,12 +1,7 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import miage.gestioncabinet.api.Medecin;
 
-@Entity
-@Table(name = "medecin")
 public class MedecinDB extends UtilisateurDB implements Medecin {
     private static final long serialVersionUID = -7477138413558824643L;
     private String            rpps;

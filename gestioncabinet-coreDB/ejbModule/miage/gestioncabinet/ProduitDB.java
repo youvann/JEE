@@ -1,10 +1,7 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Embeddable;
-
 import miage.gestioncabinet.api.Produit;
 
-@Embeddable
 public class ProduitDB implements Produit {
 
     private static final long serialVersionUID = -1562087114201628808L;
