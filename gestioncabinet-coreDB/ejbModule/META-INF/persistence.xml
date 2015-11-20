@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="gestioncabinet-coreDB"
 		transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/GestionCabinetDS</jta-data-source>
 		<class>miage.gestioncabinet.ConsultationDB</class>
 		<class>miage.gestioncabinet.InteractionDB</class>

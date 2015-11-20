@@ -26,10 +26,6 @@ public class PersonneDB implements Personne {
     @Column(name = "prenom")
     private String            prenom;
 
-    /*
-     * @PersistenceContext(unitName = "MIDB") private EntityManager em;
-     */
-
     @Override
     public Long getId() {
         return id;
