@@ -14,6 +14,7 @@
 		<class>miage.gestioncabinet.ProduitDB</class>
 		<class>miage.gestioncabinet.TraitementDB</class>
 		<class>miage.gestioncabinet.UtilisateurDB</class>-->
+		<class>miage.gestioncabinet.PersonneDB</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value=""></property>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"></property>
