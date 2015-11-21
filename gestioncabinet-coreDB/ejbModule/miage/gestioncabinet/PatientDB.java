@@ -2,11 +2,25 @@ package miage.gestioncabinet;
 
 import java.util.Calendar;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import miage.gestioncabinet.api.Patient;
 
+@Entity
+@DiscriminatorValue("patient")
 public class PatientDB extends PersonneDB implements Patient {
     private static final long serialVersionUID = 1419587895063369167L;
+
+    @Transient
     private Integer           age;
+
+    @Column(name = "date_naissance")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar          dateNaissance;
 
     @Override

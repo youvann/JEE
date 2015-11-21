@@ -1,25 +1,35 @@
 package miage.gestioncabinet;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import miage.gestioncabinet.api.Personne;
 
 @Entity
 @Table(name = "personne")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "personne_type")
+@SequenceGenerator(name = "personne_id", sequenceName = "personne_id_seq", allocationSize = 1)
 public abstract class PersonneDB implements Personne {
     private static final long serialVersionUID = 1500822243878580383L;
 
     @Id
-    private Long              id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_id")
+    protected Long            id;
 
     @Column(name = "nom")
-    private String            nom;
+    protected String          nom;
 
     @Column(name = "prenom")
-    private String            prenom;
+    protected String          prenom;
 
     @Override
     public Long getId() {
@@ -48,8 +58,6 @@ public abstract class PersonneDB implements Personne {
 
     @Override
     public String toString() {
-        // Personne p = em.find(PersonneDB.class, 1);
-        // System.out.println(p);
         return id + ", " + nom + ", " + prenom;
     }
 

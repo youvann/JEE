@@ -5,6 +5,7 @@ import miage.gestioncabinet.api.Produit;
 public class ProduitDB implements Produit {
 
     private static final long serialVersionUID = -1562087114201628808L;
+
     private String            cis;
     private String            nom;
 
