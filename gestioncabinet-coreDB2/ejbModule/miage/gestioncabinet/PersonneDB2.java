@@ -1,25 +1,19 @@
 package miage.gestioncabinet;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import miage.gestioncabinet.api.Personne;
-
 @Entity
 @Table(name = "personne")
-public abstract class PersonneDB implements Personne {
-    private static final long serialVersionUID = 1500822243878580383L;
+public class PersonneDB2 implements miage.gestioncabinet.api.Personne {
+
+    private static final long serialVersionUID = -8549494117177618535L;
 
     @Id
-    private Long              id;
-
-    @Column(name = "nom")
-    private String            nom;
-
-    @Column(name = "prenom")
-    private String            prenom;
+    protected Long            id;
+    protected String          nom;
+    protected String          prenom;
 
     @Override
     public Long getId() {
@@ -48,8 +42,6 @@ public abstract class PersonneDB implements Personne {
 
     @Override
     public String toString() {
-        // Personne p = em.find(PersonneDB.class, 1);
-        // System.out.println(p);
         return id + ", " + nom + ", " + prenom;
     }
 
@@ -71,7 +63,7 @@ public abstract class PersonneDB implements Personne {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PersonneDB other = (PersonneDB) obj;
+        PersonneDB2 other = (PersonneDB2) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

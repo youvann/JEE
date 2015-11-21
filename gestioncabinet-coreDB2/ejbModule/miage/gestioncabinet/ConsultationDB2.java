@@ -12,37 +12,21 @@ import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
-public class ConsultationDB implements Consultation {
+public class ConsultationDB2 implements Consultation {
 
-    /*
-     * OneToMany
-     * 
-     * In JPA 2.0 a @JoinColumn can be used on a OneToMany to define the foreign key
-     */
-
-    private static final long serialVersionUID = 7075372281144303720L;
-
-    private long              id;
-
+    private static final long serialVersionUID = -6807227147670627833L;
+    private Patient           patient;
+    private Medecin           medecin;
     private Calendar          dateDebut;
-
     private Calendar          dateFin;
-
     private String            compteRendu;
-
     private List<Traitement>  prescriptions;
-
     private List<Interaction> interactions;
 
-    private Patient           patient;
-
-    private Medecin           medecin;
-
-    public ConsultationDB() {
-        this.medecin = new MedecinDB();
+    public ConsultationDB2() {
         this.prescriptions = new ArrayList<Traitement>();
         this.interactions = new ArrayList<Interaction>();
-        this.patient = new PatientDB();
+        this.patient = new PatientDB2();
     }
 
     @Override
@@ -106,16 +90,6 @@ public class ConsultationDB implements Consultation {
     }
 
     @Override
-    public List<Interaction> getInteractions() {
-        return interactions;
-    }
-
-    @Override
-    public void setInteractions(List<Interaction> interactions) {
-        this.interactions = interactions;
-    }
-
-    @Override
     public List<Traitement> getPrescription() {
         return prescriptions;
     }
@@ -123,7 +97,7 @@ public class ConsultationDB implements Consultation {
     @Override
     public Boolean ajouterTraitement(Produit produit) {
 
-        Traitement traitement = new TraitementDB();
+        Traitement traitement = new TraitementDB2();
         traitement.setProduit(produit);
 
         if (!prescriptions.contains(traitement)) {
@@ -140,6 +114,16 @@ public class ConsultationDB implements Consultation {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Interaction> getInteractions() {
+        return interactions;
+    }
+
+    @Override
+    public void setInteractions(List<Interaction> interactions) {
+        this.interactions = interactions;
     }
 
     @Override
@@ -173,7 +157,7 @@ public class ConsultationDB implements Consultation {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ConsultationDB other = (ConsultationDB) obj;
+        ConsultationDB2 other = (ConsultationDB2) obj;
         if (compteRendu == null) {
             if (other.compteRendu != null)
                 return false;

@@ -42,11 +42,11 @@ public class ConsultationTestClient {
         String service = null;
         try {
             ServiceLocator locator = ServiceLocator.INSTANCE;
-            //service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningMService!miage.gestioncabinet.api.PlanningRemoteService?stateful";
+            // service = "ejb:gestioncabinet/gestioncabinet-coreM//PlanningMService!miage.gestioncabinet.api.PlanningRemoteService?stateful";
             service = "ejb:gestioncabinet/gestioncabinet-coreDB//PlanningDBService!miage.gestioncabinet.api.PlanningRemoteService?stateful";
             this.planningService = (PlanningRemoteService) locator.getRemoteInterface(service);
 
-            //service = "ejb:gestioncabinet/gestioncabinet-coreM//ConsultationMService!miage.gestioncabinet.api.ConsultationRemoteService?stateful";
+            // service = "ejb:gestioncabinet/gestioncabinet-coreM//ConsultationMService!miage.gestioncabinet.api.ConsultationRemoteService?stateful";
             service = "ejb:gestioncabinet/gestioncabinet-coreDB//ConsultationDBService!miage.gestioncabinet.api.ConsultationRemoteService?stateful";
             this.csService = (ConsultationRemoteService) locator.getRemoteInterface(service);
         } catch (ServiceLocatorException e) {
@@ -99,6 +99,8 @@ public class ConsultationTestClient {
                 System.out.println(medecin + " procède à une analyse des interactions médicamenteuses...");
                 app.csService.analyserPrescription();
                 consultation = app.csService.getConsultation();
+                System.out.println("inter");
+                System.out.println(consultation.getInteractions());
                 System.out.println("... " + consultation.getInteractions().size() + " interactions ont été détectées :");
                 for (Interaction im : consultation.getInteractions()) {
                     System.out.println(im);

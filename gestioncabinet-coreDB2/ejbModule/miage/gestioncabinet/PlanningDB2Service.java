@@ -14,14 +14,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
 import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
-import miage.gestioncabinet.api.Personne;
 import miage.gestioncabinet.api.PlanningRemoteService;
 import miage.gestioncabinet.api.Utilisateur;
 
@@ -43,34 +40,38 @@ import miage.gestioncabinet.api.Utilisateur;
  */
 @Stateful
 @Remote(PlanningRemoteService.class)
-public class PlanningDBService implements PlanningRemoteService {
+public class PlanningDB2Service implements PlanningRemoteService {
 
-    private Utilisateur        utilisateur       = null;
+    private Utilisateur        utilisateur;
     private Calendar           dateDebut;
     private Calendar           dateFin;
-    private Medecin            medecinCourant    = new MedecinDB();
+    private Medecin            medecinCourant;
     private Consultation       rdvCourant;
 
-    @PersistenceContext
-    private EntityManager      em;
-
     // Stubs
-    private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
-    private List<Patient>      stubPatients      = new ArrayList<Patient>();
-    private List<Consultation> stubConsultations = new ArrayList<Consultation>();
+    private List<Medecin>      stubMedecins;
+    private List<Patient>      stubPatients;
+    private List<Consultation> stubConsultations;
+
+    public PlanningDB2Service() {
+        this.utilisateur = null;
+        this.stubMedecins = new ArrayList<Medecin>();
+        this.stubPatients = new ArrayList<Patient>();
+        this.stubConsultations = new ArrayList<Consultation>();
+    }
 
     @PostConstruct
     public void init() throws ParseException {
         // Medecins
-        Medecin m1 = new MedecinDB();
+        Medecin m1 = new MedecinDB2();
         m1.setPrenom("Robert");
         m1.setNom("FORD");
 
-        Medecin m2 = new MedecinDB();
+        Medecin m2 = new MedecinDB2();
         m2.setPrenom("Paul");
         m2.setNom("MAES");
 
-        Medecin m3 = new MedecinDB();
+        Medecin m3 = new MedecinDB2();
         m3.setPrenom("Pierre");
         m3.setNom("MARF");
 
@@ -79,18 +80,18 @@ public class PlanningDBService implements PlanningRemoteService {
         stubMedecins.add(m3);
 
         // Patients
-        Patient p1 = new PatientDB();
+        Patient p1 = new PatientDB2();
         p1.setPrenom("Julien");
         p1.setNom("RISH");
         Calendar dateNaissance1 = Calendar.getInstance();
         dateNaissance1.setTime(new SimpleDateFormat("dd/MM/yyyy").parse("12/03/1964"));
         p1.setDateNaissance(dateNaissance1);
 
-        Patient p2 = new PatientDB();
+        Patient p2 = new PatientDB2();
         p2.setPrenom("Johny");
         p2.setNom("WALKER");
 
-        Patient p3 = new PatientDB();
+        Patient p3 = new PatientDB2();
         p3.setPrenom("Jack");
         p3.setNom("TADAM");
 
@@ -101,15 +102,12 @@ public class PlanningDBService implements PlanningRemoteService {
         dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
         dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
-        Personne p = em.find(PersonneDB.class, 1L);
-        System.out.println(p);
-
     }
 
     @Override
     public Utilisateur getUtilisateur() {
         if (this.utilisateur == null) {
-            UtilisateurDB utilisateur = new UtilisateurDB();
+            UtilisateurDB2 utilisateur = new UtilisateurDB2();
             utilisateur.setPrenom("John");
             utilisateur.setNom("Smith");
             utilisateur.setCompte(super.toString().substring(super.toString().indexOf('@') + 1));
@@ -205,7 +203,7 @@ public class PlanningDBService implements PlanningRemoteService {
         Calendar dateFin = (Calendar) date.clone();
         dateFin.add(Calendar.MINUTE, 20);
 
-        Consultation rdv = new ConsultationDB();
+        Consultation rdv = new ConsultationDB2();
         rdv.setDebut(date);
         rdv.setFin(dateFin);
         rdv.setMedecin(medecinCourant);
