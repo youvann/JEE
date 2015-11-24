@@ -15,7 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
@@ -23,7 +25,6 @@ import miage.gestioncabinet.api.Medecin;
 import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Personne;
 import miage.gestioncabinet.api.PlanningRemoteService;
-import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Utilisateur;
 
 /**
@@ -52,8 +53,9 @@ public class PlanningDBService implements PlanningRemoteService {
     private Medecin            medecinCourant    = new MedecinDB();
     private Consultation       rdvCourant;
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "gestioncabinet-coreDB")
     private EntityManager      em;
+    private EntityTransaction  transac           = em.getTransaction();
 
     // Stubs
     private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
@@ -102,8 +104,16 @@ public class PlanningDBService implements PlanningRemoteService {
         dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
         dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
-        Produit p = em.find(ProduitDB.class, "cis1");
-        System.out.println(p);
+        Personne personne1 = em.find(PersonneDB.class, 1L);
+        System.out.println(personne1);
+        
+        //transac.begin();
+        
+        Medecin medecin1 = new MedecinDB();
+        medecin1.setPrenom("Valérie");
+        medecin1.setNom("Authier");
+        em.persist(medecin1);
+        //transac.commit();
 
     }
 

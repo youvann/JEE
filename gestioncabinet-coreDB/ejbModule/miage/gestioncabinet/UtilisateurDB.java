@@ -1,10 +1,17 @@
 package miage.gestioncabinet;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import miage.gestioncabinet.api.Utilisateur;
 
+@Entity
+@DiscriminatorValue("utilisateur")
 public class UtilisateurDB extends PersonneDB implements Utilisateur {
     private static final long serialVersionUID = -2181372837758033155L;
-    private String            compte;
+
+    
+    protected String          compte;
 
     @Override
     public String getCompte() {
