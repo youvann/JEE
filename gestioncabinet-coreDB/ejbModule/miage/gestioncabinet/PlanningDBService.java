@@ -57,7 +57,6 @@ public class PlanningDBService implements PlanningRemoteService {
 
     @PersistenceContext(unitName = "gestioncabinet-coreDB")
     private EntityManager      em;
-    private EntityTransaction  transac           = em.getTransaction();
 
     // Stubs
     //private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
