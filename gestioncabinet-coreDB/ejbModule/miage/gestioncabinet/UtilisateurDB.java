@@ -12,6 +12,7 @@ public class UtilisateurDB extends PersonneDB implements Utilisateur {
     private static final long serialVersionUID = -2181372837758033155L;
 
     @Column(name = "compte")
+
     protected String          compte;
 
     @Override

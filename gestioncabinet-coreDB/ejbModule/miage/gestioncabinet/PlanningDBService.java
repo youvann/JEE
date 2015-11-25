@@ -15,8 +15,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+
 import javax.persistence.Query;
+
 
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
@@ -54,6 +57,7 @@ public class PlanningDBService implements PlanningRemoteService {
 
     @PersistenceContext(unitName = "gestioncabinet-coreDB")
     private EntityManager      em;
+    private EntityTransaction  transac           = em.getTransaction();
 
     // Stubs
     //private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
@@ -102,8 +106,8 @@ public class PlanningDBService implements PlanningRemoteService {
         dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
         dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
-        Personne personne1 = em.find(PersonneDB.class, 1L);
-        System.out.println(personne1);
+        /*Personne personne1 = em.find(PersonneDB.class, 1L);
+        System.out.println(personne1);*/
     }
 
     // Test d'un CRUD sur Personne
