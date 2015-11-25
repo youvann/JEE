@@ -17,12 +17,12 @@ import miage.gestioncabinet.api.Personne;
 @Table(name = "personne")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "personne_type")
-@SequenceGenerator(name = "personne_id", sequenceName = "personne_id_seq", allocationSize = 1)
 public abstract class PersonneDB implements Personne {
     private static final long serialVersionUID = 1500822243878580383L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_id")
+    @SequenceGenerator(name = "personne_seq", sequenceName = "personne_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_seq")
     protected Long            id;
 
     @Column(name = "nom")

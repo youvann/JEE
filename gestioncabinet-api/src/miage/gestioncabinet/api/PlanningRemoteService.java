@@ -101,6 +101,6 @@ public interface PlanningRemoteService{
 	/**
 	 * Supprime le rendez-vous de consultation courant
 	 */
-	public void supprimerRdv() throws GestionCabinetException;	
+	public void supprimerRdv() throws GestionCabinetException;
 	
 }
