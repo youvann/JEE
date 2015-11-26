@@ -15,9 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
-
 import javax.persistence.Query;
 
 import miage.gestioncabinet.api.Consultation;
@@ -126,21 +126,18 @@ public class PlanningDBService implements PlanningRemoteService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Medecin> rechercherMedecins() throws GestionCabinetException {
-        Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='medecin'");
-        @SuppressWarnings("unchecked")
+        Query query = em.createNamedQuery("findAllMedecin");
         List<Medecin> medecinList = query.getResultList();
         return medecinList;
-
-        // return stubMedecins;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance) throws GestionCabinetException {
         List<Patient> patientListFound = new ArrayList<Patient>();
-
-        Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='patient'");
-        @SuppressWarnings("unchecked")
+        Query query = em.createNamedQuery("findAllPatient");
         List<Patient> patientList = query.getResultList();
 
         for (Patient patient : patientList) {

@@ -3,11 +3,13 @@ package miage.gestioncabinet;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 import miage.gestioncabinet.api.Utilisateur;
 
 @Entity
 @DiscriminatorValue("utilisateur")
+@NamedQuery(name = "findAllUtilisateur", query = "SELECT u FROM UtilisateurDB u")
 public class UtilisateurDB extends PersonneDB implements Utilisateur {
     private static final long serialVersionUID = -2181372837758033155L;
 
