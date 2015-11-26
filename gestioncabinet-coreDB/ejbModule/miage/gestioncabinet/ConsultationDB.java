@@ -8,11 +8,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,6 +30,7 @@ import miage.gestioncabinet.api.Traitement;
 
 @Entity
 @Table(name = "consultation")
+@NamedQuery(name = "findAllConsultation", query = "SELECT c FROM ConsultationDB c")
 public class ConsultationDB implements Consultation {
     private static final long serialVersionUID = 7075372281144303720L;
 
@@ -49,13 +52,13 @@ public class ConsultationDB implements Consultation {
 
     // Une consultation possède plusieurs prescriptions
     // Lorsque l'on supprime une consultation, toutes les prescriptions associées sont supprimées
-    @OneToMany(targetEntity = TraitementDB.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = TraitementDB.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table traitement possède la clef étrangère consultation_id
     private List<Traitement>  prescriptions;
 
     // Une consultation possède plusieurs interactions
     // Lorsque l'on supprime une consultation, toutes les interactions associées sont supprimées
-    @OneToMany(targetEntity = InteractionDB.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = InteractionDB.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table interaction possède la clef étrangère consultation_id
     private List<Interaction> interactions;
 
