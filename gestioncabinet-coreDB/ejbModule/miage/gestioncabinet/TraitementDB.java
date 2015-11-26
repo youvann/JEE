@@ -1,14 +1,31 @@
 package miage.gestioncabinet;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import miage.gestioncabinet.api.Produit;
 
+@Entity
+@Table(name = "traitement")
 public class TraitementDB implements miage.gestioncabinet.api.Traitement {
     private static final long serialVersionUID = -868044482900848450L;
 
+    @Id
+    @SequenceGenerator(name = "traitement_seq", sequenceName = "traitement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "traitement_seq")
     private long              id;
 
+    // A modifier
+    @Transient
     private Produit           produit;
 
+    @Column(name = "posologie")
     private String            posologie;
 
     @Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,13 +29,6 @@ import miage.gestioncabinet.api.Traitement;
 @Entity
 @Table(name = "consultation")
 public class ConsultationDB implements Consultation {
-
-    /*
-     * OneToMany
-     * 
-     * In JPA 2.0 a @JoinColumn can be used on a OneToMany to define the foreign key
-     */
-
     private static final long serialVersionUID = 7075372281144303720L;
 
     @Id
@@ -53,19 +47,23 @@ public class ConsultationDB implements Consultation {
     @Column(name = "compte_rendu")
     private String            compteRendu;
 
-    @OneToMany(targetEntity = TraitementDB.class) // Une consultation possède plusieurs prescriptions
+    // Une consultation possède plusieurs prescriptions
+    // Lorsque l'on supprime une consultation, toutes les prescriptions associées sont supprimées
+    @OneToMany(targetEntity = TraitementDB.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table traitement possède la clef étrangère consultation_id
     private List<Traitement>  prescriptions;
 
-    @OneToMany(targetEntity = InteractionDB.class) // Une consultation possède plusieurs interactions
+    // Une consultation possède plusieurs interactions
+    // Lorsque l'on supprime une consultation, toutes les interactions associées sont supprimées
+    @OneToMany(targetEntity = InteractionDB.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table interaction possède la clef étrangère consultation_id
     private List<Interaction> interactions;
 
-    @ManyToOne(targetEntity = PatientDB.class) // Plusieurs consultations peuvent appartenir à un même patient
+    @ManyToOne(targetEntity = PatientDB.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) // Plusieurs consultations peuvent appartenir à un même patient
     @JoinColumn(name = "patient_id") // La table consultation possède la clef étrangère patient_id
     private Patient           patient;
 
-    @ManyToOne(targetEntity = MedecinDB.class) // Plusieurs consultations peuvent appartenir à un même médecin
+    @ManyToOne(targetEntity = MedecinDB.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) // Plusieurs consultations peuvent appartenir à un même médecin
     @JoinColumn(name = "medecin_id") // La table consultation possède la clef étrangère medecin_id
     private Medecin           medecin;
 

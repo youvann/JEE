@@ -128,6 +128,7 @@ public class PlanningDBService implements PlanningRemoteService {
     @Override
     public List<Medecin> rechercherMedecins() throws GestionCabinetException {
         Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='medecin'");
+        @SuppressWarnings("unchecked")
         List<Medecin> medecinList = query.getResultList();
         return medecinList;
 
@@ -139,6 +140,7 @@ public class PlanningDBService implements PlanningRemoteService {
         List<Patient> patientListFound = new ArrayList<Patient>();
 
         Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='patient'");
+        @SuppressWarnings("unchecked")
         List<Patient> patientList = query.getResultList();
 
         for (Patient patient : patientList) {
@@ -230,10 +232,8 @@ public class PlanningDBService implements PlanningRemoteService {
     // Modification d'un rendez-vous
     @Override
     public Consultation enregistrerRdv() throws GestionCabinetException {
-        stubConsultations.add(rdvCourant);
-        
-        em.persist(rdvCourant);
-        
+        // stubConsultations.add(rdvCourant);
+        em.persist(em.merge(rdvCourant));
         return rdvCourant;
     }
 
