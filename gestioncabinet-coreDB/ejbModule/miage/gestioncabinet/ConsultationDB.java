@@ -5,6 +5,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.Interaction;
 import miage.gestioncabinet.api.Medecin;
@@ -12,6 +25,8 @@ import miage.gestioncabinet.api.Patient;
 import miage.gestioncabinet.api.Produit;
 import miage.gestioncabinet.api.Traitement;
 
+@Entity
+@Table(name = "consultation")
 public class ConsultationDB implements Consultation {
 
     /*
@@ -22,20 +37,36 @@ public class ConsultationDB implements Consultation {
 
     private static final long serialVersionUID = 7075372281144303720L;
 
+    @Id
+    @SequenceGenerator(name = "consultation_seq", sequenceName = "consultation_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consultation_seq")
     private long              id;
 
+    @Column(name = "date_debut")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar          dateDebut;
 
+    @Column(name = "date_fin")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar          dateFin;
 
+    @Column(name = "compte_rendu")
     private String            compteRendu;
 
+    @OneToMany(targetEntity = TraitementDB.class) // Une consultation possède plusieurs prescriptions
+    @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table traitement possède la clef étrangère consultation_id
     private List<Traitement>  prescriptions;
 
+    @OneToMany(targetEntity = InteractionDB.class) // Une consultation possède plusieurs interactions
+    @JoinColumn(name = "consultation_id", referencedColumnName = "id") // La table interaction possède la clef étrangère consultation_id
     private List<Interaction> interactions;
 
+    @ManyToOne(targetEntity = PatientDB.class) // Plusieurs consultations peuvent appartenir à un même patient
+    @JoinColumn(name = "patient_id") // La table consultation possède la clef étrangère patient_id
     private Patient           patient;
 
+    @ManyToOne(targetEntity = MedecinDB.class) // Plusieurs consultations peuvent appartenir à un même médecin
+    @JoinColumn(name = "medecin_id") // La table consultation possède la clef étrangère medecin_id
     private Medecin           medecin;
 
     public ConsultationDB() {

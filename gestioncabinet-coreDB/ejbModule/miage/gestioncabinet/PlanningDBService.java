@@ -20,7 +20,6 @@ import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
 
-
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.GestionCabinetException;
 import miage.gestioncabinet.api.Medecin;
@@ -59,29 +58,11 @@ public class PlanningDBService implements PlanningRemoteService {
     private EntityManager      em;
 
     // Stubs
-    //private List<Medecin>      stubMedecins      = new ArrayList<Medecin>();
     private List<Patient>      stubPatients      = new ArrayList<Patient>();
     private List<Consultation> stubConsultations = new ArrayList<Consultation>();
 
     @PostConstruct
     public void init() throws ParseException {
-        // Medecins
-        /*Medecin m1 = new MedecinDB();
-        m1.setPrenom("Robert");
-        m1.setNom("FORD");
-
-        Medecin m2 = new MedecinDB();
-        m2.setPrenom("Paul");
-        m2.setNom("MAES");
-
-        Medecin m3 = new MedecinDB();
-        m3.setPrenom("Pierre");
-        m3.setNom("MARF");
-
-        stubMedecins.add(m1);
-        stubMedecins.add(m2);
-        stubMedecins.add(m3);*/
-
         // Patients
         Patient p1 = new PatientDB();
         p1.setPrenom("Julien");
@@ -105,12 +86,13 @@ public class PlanningDBService implements PlanningRemoteService {
         dateDebut = new GregorianCalendar(2015, 11, 11, 9, 0);
         dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
 
-        /*Personne personne1 = em.find(PersonneDB.class, 1L);
-        System.out.println(personne1);*/
+        /*
+         * Personne personne1 = em.find(PersonneDB.class, 1L); System.out.println(personne1);
+         */
     }
 
     // Test d'un CRUD sur Personne
-    
+
     public Personne find(Long id) {
         return em.find(PersonneDB.class, id);
     }
@@ -146,17 +128,20 @@ public class PlanningDBService implements PlanningRemoteService {
     @Override
     public List<Medecin> rechercherMedecins() throws GestionCabinetException {
         Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='medecin'");
-        List<Medecin> listM = query.getResultList();
-        return listM;
-        
-        //return stubMedecins;
+        List<Medecin> medecinList = query.getResultList();
+        return medecinList;
+
+        // return stubMedecins;
     }
 
     @Override
     public List<Patient> rechercherPatients(String nom, String prenom, Calendar dateNaissance) throws GestionCabinetException {
         List<Patient> patientListFound = new ArrayList<Patient>();
 
-        for (Patient patient : stubPatients) {
+        Query query = em.createQuery("SELECT p FROM PersonneDB p WHERE personne_type='patient'");
+        List<Patient> patientList = query.getResultList();
+
+        for (Patient patient : patientList) {
             if (patient.getNom().equals(nom) && patient.getPrenom().equals(prenom) && patient.getDateNaissance().equals(dateNaissance)) {
                 patientListFound.add(patient);
             }
@@ -246,6 +231,9 @@ public class PlanningDBService implements PlanningRemoteService {
     @Override
     public Consultation enregistrerRdv() throws GestionCabinetException {
         stubConsultations.add(rdvCourant);
+        
+        em.persist(rdvCourant);
+        
         return rdvCourant;
     }
 
