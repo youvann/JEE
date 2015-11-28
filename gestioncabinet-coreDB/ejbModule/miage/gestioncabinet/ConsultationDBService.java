@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import fr.vidal.webservices.interactionservice.ArrayOfInt;
 import fr.vidal.webservices.interactionservice.ArrayOfInteractionCouple;
@@ -30,6 +32,9 @@ public class ConsultationDBService implements ConsultationRemoteService {
     // Web service
     private ProductService     productService;
     private InteractionService interactionService;
+
+    @PersistenceContext(unitName = "gestioncabinet-coreDB")
+    private EntityManager      em;
 
     // Consultation courante
     private Consultation       consultation;
@@ -79,12 +84,6 @@ public class ConsultationDBService implements ConsultationRemoteService {
             productIds.getInt().add(product.getId());
         }
 
-        // productIds.getInt().add(63368332);
-        // productIds.getInt().add(65124280);
-        // productIds.getInt().add(68300762);
-        // productIds.getInt().add(67010731);
-        // productIds.getInt().add(63564053);
-
         // Récupération des interactions trouvées
         List<Interaction> interactionsFound = new ArrayList<Interaction>();
         ArrayOfInteractionCouple arrayInteractionsCouple = interactionService.searchInteractionCouplesForProductIds(productIds, InteractionSeverityType.TAKE_INTO_ACCOUNT).getInteractionCoupleList();
@@ -116,12 +115,14 @@ public class ConsultationDBService implements ConsultationRemoteService {
 
     @Override
     public Consultation enregistrer() throws GestionCabinetException {
+        em.persist(em.merge(this.consultation));
         return this.consultation;
     }
 
     @Override
     public void supprimer() throws GestionCabinetException {
-        this.consultation = null;
+        Consultation c = em.merge(this.consultation);
+        em.remove(c);
     }
 
 }

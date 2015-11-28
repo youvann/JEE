@@ -1,13 +1,15 @@
 package miage.gestioncabinet;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import miage.gestioncabinet.api.Produit;
 
@@ -21,12 +23,12 @@ public class InteractionDB implements miage.gestioncabinet.api.Interaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "interaction_seq")
     private long              id;
 
-    // A modifier
-    @Transient
+    @Embedded
+    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit_a_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit_a_nom") ) })
     private ProduitDB         produitA;
 
-    // A modifier
-    @Transient
+    @Embedded
+    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit_b_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit_b_nom") ) })
     private ProduitDB         produitB;
 
     @Column(name = "severite")

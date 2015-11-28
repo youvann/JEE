@@ -1,7 +1,9 @@
 package miage.gestioncabinet.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import miage.gestioncabinet.TraitementDB;
 import miage.gestioncabinet.api.Consultation;
 import miage.gestioncabinet.api.ConsultationRemoteService;
 import miage.gestioncabinet.api.Interaction;
@@ -110,12 +112,21 @@ public class ConsultationTestClient {
 
                 Interaction interaction = consultation.getInteractions().get(0);
 
+                /*
+                 * for (Traitement t : consultation.getPrescription()) { if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
+                 * if (consultation.supprimerTraitement(t)) { System.out.println(medecin + " a supprimé avec succès le " + t); } } }
+                 */
+
+                Traitement traitementASupprimer = new TraitementDB();
                 for (Traitement t : consultation.getPrescription()) {
                     if (interaction.getProduitA().equals(t.getProduit()) || interaction.getProduitB().equals(t.getProduit())) {
-                        if (consultation.supprimerTraitement(t)) {
-                            System.out.println(medecin + " a supprimé avec succès le " + t);
-                        }
+                        traitementASupprimer = t;
+                        break;
                     }
+                }
+
+                if (consultation.supprimerTraitement(traitementASupprimer)) {
+                    System.out.println(medecin + " a supprimé avec succès le " + traitementASupprimer);
                 }
 
                 app.csService.setConsultation(consultation);

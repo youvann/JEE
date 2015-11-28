@@ -78,7 +78,7 @@ public class ConsultationDB implements Consultation {
     }
 
     @Override
-    public int compareTo(miage.gestioncabinet.api.Consultation c) {
+    public int compareTo(Consultation c) {
         return this.dateDebut.compareTo(c.getDebut());
 
     }

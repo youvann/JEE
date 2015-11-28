@@ -1,12 +1,19 @@
 package miage.gestioncabinet;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
 import miage.gestioncabinet.api.Produit;
 
+@Embeddable
 public class ProduitDB implements Produit {
 
     private static final long serialVersionUID = -1562087114201628808L;
 
+    @Column(name = "cis")
     private String            cis;
+
+    @Column(name = "nom")
     private String            nom;
 
     @Override

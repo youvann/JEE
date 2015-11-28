@@ -65,39 +65,6 @@ public class PlanningDBService implements PlanningRemoteService {
         dateFin = new GregorianCalendar(2015, 11, 11, 18, 0);
     }
 
-    // Test d'un CRUD sur Personne
-    public Personne find(Long id) {
-        return em.find(PersonneDB.class, id);
-    }
-
-    public List<? extends Personne> list() {
-        return em.createQuery("FROM personne", PersonneDB.class).getResultList();
-    }
-
-    public Long save(Personne personne) {
-        em.persist(personne);
-        return personne.getId();
-    }
-
-    public void update(Personne personne) {
-        em.merge(personne);
-    }
-
-    public void delete(Personne personne) {
-        em.remove(em.contains(personne) ? personne : em.merge(personne));
-    }
-
-    @Override
-    public Utilisateur getUtilisateur() {
-        if (this.utilisateur == null) {
-            UtilisateurDB utilisateur = new UtilisateurDB();
-            utilisateur.setPrenom("John");
-            utilisateur.setNom("Smith");
-            utilisateur.setCompte(super.toString().substring(super.toString().indexOf('@') + 1));
-        }
-        return utilisateur;
-    }
-
     @Override
     public List<Medecin> rechercherMedecins() throws GestionCabinetException {
         Query query = em.createNamedQuery("findAllMedecin");
@@ -122,6 +89,7 @@ public class PlanningDBService implements PlanningRemoteService {
     @Override
     public List<Consultation> listerRdv() {
         Query query = em.createNamedQuery("findAllConsultation");
+        @SuppressWarnings("unchecked")
         List<Consultation> consultationList = query.getResultList();
 
         List<Consultation> consultationTmp = new ArrayList<Consultation>();
@@ -166,6 +134,17 @@ public class PlanningDBService implements PlanningRemoteService {
     public void supprimerRdv() throws GestionCabinetException {
         Consultation rdv = em.merge(rdvCourant);
         em.remove(rdv);
+    }
+
+    @Override
+    public Utilisateur getUtilisateur() {
+        if (this.utilisateur == null) {
+            UtilisateurDB utilisateur = new UtilisateurDB();
+            utilisateur.setPrenom("John");
+            utilisateur.setNom("Smith");
+            utilisateur.setCompte(super.toString().substring(super.toString().indexOf('@') + 1));
+        }
+        return utilisateur;
     }
 
     @Override

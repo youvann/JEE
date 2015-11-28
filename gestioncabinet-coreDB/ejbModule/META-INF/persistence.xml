@@ -26,7 +26,7 @@
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value=""></property>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"></property>
-			<property name="hibernate.show_sql" value="false"></property>
+			<property name="hibernate.show_sql" value=""></property>
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -1,13 +1,15 @@
 package miage.gestioncabinet;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import miage.gestioncabinet.api.Produit;
 
@@ -21,9 +23,9 @@ public class TraitementDB implements miage.gestioncabinet.api.Traitement {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "traitement_seq")
     private long              id;
 
-    // A modifier
-    @Transient
-    private Produit           produit;
+    @Embedded
+    @AttributeOverrides({ @AttributeOverride(name = "cis", column = @Column(name = "produit_cis") ), @AttributeOverride(name = "nom", column = @Column(name = "produit_nom") ) })
+    private ProduitDB         produit;
 
     @Column(name = "posologie")
     private String            posologie;
@@ -35,7 +37,7 @@ public class TraitementDB implements miage.gestioncabinet.api.Traitement {
 
     @Override
     public void setProduit(Produit produit) {
-        this.produit = produit;
+        this.produit = (ProduitDB) produit;
     }
 
     @Override

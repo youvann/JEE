@@ -5,6 +5,7 @@ import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,7 +15,11 @@ import miage.gestioncabinet.api.Patient;
 
 @Entity
 @DiscriminatorValue("patient")
-@NamedQuery(name = "findAllPatient", query = "SELECT p FROM PatientDB p")
+@NamedQueries({ 
+    @NamedQuery(name = "findAllPatient", query = "SELECT p FROM PatientDB p"),
+    @NamedQuery(name = "findPatientById", query = "SELECT p FROM PatientDB p WHERE p.id = :id")
+})
+
 public class PatientDB extends PersonneDB implements Patient {
     private static final long serialVersionUID = 1419587895063369167L;
 

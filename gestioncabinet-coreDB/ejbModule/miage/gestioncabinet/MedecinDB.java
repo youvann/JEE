@@ -3,13 +3,18 @@ package miage.gestioncabinet;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import miage.gestioncabinet.api.Medecin;
 
 @Entity
 @DiscriminatorValue("medecin")
-@NamedQuery(name = "findAllMedecin", query = "SELECT m FROM MedecinDB m")
+@NamedQueries({ 
+    @NamedQuery(name = "findAllMedecin", query = "SELECT m FROM MedecinDB m"),
+    @NamedQuery(name = "findMedecinById", query = "SELECT m FROM MedecinDB m WHERE m.id = :id"), 
+})
+
 public class MedecinDB extends UtilisateurDB implements Medecin {
     private static final long serialVersionUID = -7477138413558824643L;
 
@@ -19,6 +24,10 @@ public class MedecinDB extends UtilisateurDB implements Medecin {
     @Override
     public String getRPPS() {
         return rpps;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
     @Override
