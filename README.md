@@ -3,4 +3,5 @@
 - Wildfly
 - EJB
 - JPA
+- WSDL
 
