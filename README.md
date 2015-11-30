@@ -1,1 +1,6 @@
-# JEE
+# Java EE project
+
+- Wildfly
+- EJB
+- JPA
+
